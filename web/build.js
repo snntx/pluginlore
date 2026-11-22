@@ -57,6 +57,24 @@ function packSamples() {
   return dirs.size;
 }
 
+// Content-Security-Policy: scripts only from this site (the app has no inline scripts), network only to
+// WordPress.org and the WordPress Playground sandbox. Tested against Run, the WordPress.org flow and reports.
+const CSP = [
+  "default-src 'self'",
+  "script-src 'self' 'wasm-unsafe-eval'",
+  "style-src 'self' 'unsafe-inline'",
+  "img-src 'self' data: blob: https:",
+  "font-src 'self'",
+  "connect-src 'self' https://api.wordpress.org https://downloads.wordpress.org https://playground.wordpress.net https://wasm.wordpress.net",
+  "frame-src https://playground.wordpress.net",
+  "worker-src 'self' blob:",
+  "object-src 'none'",
+  "base-uri 'self'",
+  "form-action 'none'",
+  "frame-ancestors 'none'",
+].join('; ');
+const PERMISSIONS = 'camera=(), microphone=(), geolocation=(), payment=(), usb=(), interest-cohort=()';
+
 // Apache / cPanel (Namecheap shared hosting etc.): file types, compression, light caching, basic headers.
 const HTACCESS = `# Pluginlore static site
 AddType application/javascript .js .mjs
@@ -78,6 +96,9 @@ AddType application/zip .zip
 <IfModule mod_headers.c>
   Header always set X-Content-Type-Options "nosniff"
   Header always set Referrer-Policy "strict-origin-when-cross-origin"
+  Header always set X-Frame-Options "DENY"
+  Header always set Permissions-Policy "${PERMISSIONS}"
+  Header always set Content-Security-Policy "${CSP}"
 </IfModule>
 
 # Send visitors to HTTPS (needs the free SSL certificate switched on in cPanel)
@@ -95,7 +116,10 @@ function zipSite() {
     for (const name of readdirSync(dir)) {
       const p = join(dir, name);
       if (statSync(p).isDirectory()) walk(p);
-      else if (!name.endsWith('.map')) files[relative(outdir, p).split('\\').join('/')] = readFileSync(p);
+      else if (!name.endsWith('.map')) {
+        const rel = relative(outdir, p).split('\\').join('/');
+        if (!rel.startsWith('trailer/')) files[rel] = readFileSync(p);   // the trailer is a local marketing file, not part of the site
+      }
     }
   })(outdir);
   const out = join(__dirname, 'pluginlore-site.zip');
@@ -107,6 +131,10 @@ function zipSite() {
 const HEADERS = `/*
   X-Content-Type-Options: nosniff
   Referrer-Policy: strict-origin-when-cross-origin
+  X-Frame-Options: DENY
+  Permissions-Policy: ${PERMISSIONS}
+  Strict-Transport-Security: max-age=15552000
+  Content-Security-Policy: ${CSP}
 
 /*.html
   Cache-Control: public, max-age=0, must-revalidate

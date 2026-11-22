@@ -19,7 +19,7 @@ export function buildReport({ model, diff, trace, branding = {}, sections = {}, 
   parts.push(`
   <header class="cover">
     <div class="brandline">
-      ${branding.logo ? `<img class="logo" src="${branding.logo}" alt="">` : ''}
+      ${safeLogo(branding.logo) ? `<img class="logo" src="${safeLogo(branding.logo)}" alt="">` : ''}
       <div>
         ${branding.agency ? `<div class="agency">${esc(branding.agency)}</div>` : ''}
         <div class="muted">Static code review · ${esc(date)}</div>
@@ -169,6 +169,8 @@ const tick = (v) => (v
   : '<svg class="tick no" viewBox="0 0 24 24" role="img" aria-label="no"><path d="M6 6l12 12M18 6 6 18"/></svg>');
 const sev = (s) => `<span class="sev sev-${esc(s)}">${esc(s)}</span>`;
 const list = (title, items) => (items.length ? `<h3>${esc(title)}</h3><ul class="list">${items.slice(0, 80).map((i) => `<li>${i}</li>`).join('')}</ul>` : '');
+// Only a base64 image data URL is allowed through (anything else is dropped), so a tampered value can't break out of the attribute.
+function safeLogo(v) { return typeof v === 'string' && /^data:image\/(png|jpeg|gif|webp|svg\+xml);base64,[A-Za-z0-9+\/=]+$/.test(v) ? v : ''; }
 function esc(s) { return String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c])); }
 
 const CSS = `

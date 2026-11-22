@@ -1085,6 +1085,7 @@ function exportReport(mode) {
     toast('Report downloaded');
   } else {
     const frame = document.createElement('iframe');
+    frame.setAttribute('sandbox', 'allow-same-origin allow-modals');   // no scripts, ever
     frame.style.cssText = 'position:fixed;width:0;height:0;border:0;right:0;bottom:0';
     frame.srcdoc = html;
     frame.onload = () => { frame.contentWindow.focus(); frame.contentWindow.print(); setTimeout(() => frame.remove(), 2000); };
@@ -1555,7 +1556,7 @@ function renderRunResult(res, layout, inst) {
   const pv = $('runPreviewBtn');
   if (pv) pv.onclick = () => {
     const f = $('runPreview');
-    f.srcdoc = `<!doctype html><meta charset="utf-8"><style>body{font:14px system-ui;margin:12px}</style>${out || r.returned}`;
+    f.srcdoc = `<!doctype html><meta charset="utf-8"><meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'; img-src data:"><style>body{font:14px system-ui;margin:12px}</style>${out || r.returned}`;
     f.classList.toggle('hidden');
   };
   void inst;
