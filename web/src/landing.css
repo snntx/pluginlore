@@ -190,3 +190,12 @@ html:has(body.landing) { scroll-behavior: smooth; }
 @keyframes launch-bob { 0%, 100% { transform: translate(0, 0) rotate(0); } 50% { transform: translate(2px, -3px) rotate(-5deg); } }
 @media (max-width: 480px) { .landing .btn.launch { font-size: 19px; } }
 
+
+/* Two ways in: zip file or the WordPress.org directory */
+.l-ways { list-style: none; margin: 18px 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: 10px; }
+.l-ways li { display: inline-flex; align-items: center; gap: 8px; font-size: 16px; padding: 7px 13px; border: 1.5px solid var(--ink);
+  border-radius: 999px; background: var(--card); box-shadow: 2px 2px 0 var(--ink); }
+.l-ways .icon { width: 18px; height: 18px; color: var(--cobalt); }
+.l-ways b { font-weight: 700; }
+
+@media (max-width: 480px) { .hide-s { display: none; } .l-nav { gap: 12px; } }

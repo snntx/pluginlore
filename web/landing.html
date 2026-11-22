@@ -45,7 +45,7 @@
       <a href="#free">Free forever</a>
     </nav>
     <button class="btn small ghost icon-btn" id="themeBtn" title="Light / dark" aria-label="Switch light or dark"><svg class="icon"><use href="#i-moon"/></svg></button>
-    <a class="btn small primary" href="app.html">Open Pluginlore <svg class="icon xs"><use href="#i-arrow"/></svg></a>
+    <a class="btn small primary" href="app.html"><span>Open<span class="hide-s"> Pluginlore</span></span><svg class="icon xs"><use href="#i-arrow"/></svg></a>
   </header>
 
   <main>
@@ -58,6 +58,10 @@
         <div class="l-cta">
           <a class="btn primary big launch" id="launchBtn" href="app.html"><svg class="icon rocket"><use href="#i-rocket"/></svg> Launch Pluginlore</a>
         </div>
+        <ul class="l-ways" aria-label="Two ways to load a plugin">
+          <li><svg class="icon"><use href="#i-zip"/></svg><span>Your own <b>.zip</b></span></li>
+          <li><svg class="icon"><use href="#i-wp"/></svg><span><b>WordPress.org</b>, any version</span></li>
+        </ul>
         <p class="muted small l-note">Free, no sign-up. Your code stays in your browser.</p>
       </div>
 
@@ -116,7 +120,7 @@
     <section class="l-section" id="how">
       <h2>How it works</h2>
       <ol class="l-steps">
-        <li><span class="l-num">1</span><div><h3>Bring a plugin</h3><p>Drop a <code>.zip</code>, or search WordPress.org and pick any version back to the first release. Pick two versions to see what changed.</p></div></li>
+        <li><span class="l-num">1</span><div><h3>Bring a plugin</h3><p>Drop in a <code>.zip</code> of your own plugin or theme, or search the WordPress.org directory and pick any version back to the first release. Pick two versions to see what changed.</p></div></li>
         <li><span class="l-num">2</span><div><h3>Read the story</h3><p>Pluginlore reads every PHP and JavaScript file and writes the walkthrough from the code itself. No AI guessing: the same plugin always gets the same explanation.</p></div></li>
         <li><span class="l-num">3</span><div><h3>Poke at it</h3><p>Click a file to see who can reach it. Send a signal through the map. Run a function as a visitor, a subscriber or an admin and compare what happens.</p></div></li>
       </ol>
@@ -156,7 +160,7 @@
       <h2>Pick a plugin. See how it works.</h2>
       <div class="l-cta center">
         <a class="btn primary big" href="app.html">Open Pluginlore <svg class="icon"><use href="#i-arrow"/></svg></a>
-        <a class="btn big" href="app.html#practice"><svg class="icon"><use href="#i-flask"/></svg> Try a practice plugin</a>
+        <a class="btn big" href="app.html#wporg"><svg class="icon"><use href="#i-wp"/></svg> Pick one from WordPress.org</a>
       </div>
     </section>
   </main>
