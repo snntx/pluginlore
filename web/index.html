@@ -72,8 +72,18 @@
         <div id="pkgInfo" class="pkg-info hidden"></div>
       </section>
 
+      <section class="panel" id="panelTrace">
+        <h3><span class="num">02</span> Runtime trace</h3>
+        <button class="btn small" id="traceBtn" disabled><svg class="icon"><use href="#i-pulse"/></svg> Import trace (.json)</button>
+        <input type="file" id="traceInput" accept=".json,application/json" hidden />
+        <label class="row check hidden" id="dimRow"><input type="checkbox" id="dimToggle" /> <span>Fade files that never loaded</span></label>
+        <div id="traceInfo" class="pkg-info hidden"></div>
+        <p class="muted small">Record real clicks on your <strong>staging site</strong> (or a live site, with caution) with the
+          <a href="pluginlore-trace.zip" download>Pluginlore Trace plugin</a>, then import the export.</p>
+      </section>
+
       <section class="panel" id="panelCompare">
-        <h3><span class="num">02</span> Compare versions</h3>
+        <h3><span class="num">03</span> Compare versions</h3>
         <div id="compareDrop" class="dropzone small-drop" role="button" tabindex="0" aria-label="Choose another version to compare">
           <input type="file" id="compareInput" accept=".zip" hidden />
           <p><strong>Drop another version</strong></p>
@@ -82,15 +92,13 @@
         <div id="compareInfo" class="pkg-info hidden"></div>
       </section>
 
-
-
       <section class="panel hidden" id="packagesPanel">
         <h3><span class="num">··</span> Packages</h3>
         <div id="packageFilters" class="filters"></div>
       </section>
 
       <section class="panel" id="panelEdges">
-        <h3><span class="num">03</span> Threads</h3>
+        <h3><span class="num">04</span> Threads</h3>
         <label class="row check tight" title="Files with no links to anything else (files that are public or have findings always stay)">
           <input type="checkbox" id="hideIsoToggle" checked /> <span>Hide unconnected files <span class="muted" id="isoCount"></span></span>
         </label>
@@ -99,33 +107,24 @@
       </section>
 
       <section class="panel" id="panelReach">
-        <h3><span class="num">04</span> Who can reach it</h3>
+        <h3><span class="num">05</span> Who can reach it</h3>
         <div id="reachFilters" class="filters"></div>
       </section>
 
       <section class="panel">
-        <h3><span class="num">05</span> Legend</h3>
+        <h3><span class="num">06</span> Legend</h3>
         <div id="legend" class="legend"></div>
       </section>
 
       <div class="rail-group" id="auditGroup"><span>Audit tools</span></div>
 
       <section class="panel" id="panelOptions">
-        <h3><span class="num">06</span> Security checks</h3>
+        <h3><span class="num">07</span> Security checks</h3>
         <label class="row check" id="vulnRow" style="margin-top:0">
           <input type="checkbox" id="vulnToggle" /> <span>Look for security problems</span>
         </label>
       </section>
 
-      <section class="panel" id="panelTrace">
-        <h3><span class="num">07</span> Runtime trace</h3>
-        <button class="btn small" id="traceBtn" disabled><svg class="icon"><use href="#i-pulse"/></svg> Import trace (.json)</button>
-        <input type="file" id="traceInput" accept=".json,application/json" hidden />
-        <label class="row check hidden" id="dimRow"><input type="checkbox" id="dimToggle" /> <span>Fade files that never loaded</span></label>
-        <div id="traceInfo" class="pkg-info hidden"></div>
-        <p class="muted small">Record real clicks on your <strong>local</strong> test site with the
-          <a href="pluginlore-trace.zip" download>Pluginlore Trace plugin</a>, then import the export.</p>
-      </section>
     </aside>
 
     <!-- Center: tabs over graph / tables -->

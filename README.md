@@ -24,7 +24,7 @@ Drop in a `.zip` and Pluginlore parses every PHP and JS file, draws how they con
 
 ### Track change
 - **Version diff** - drop a second version. Pluginlore orders them by the `Version:` header and shows new/removed entry points, auth changes, **access regressions** (a capability or nonce check disappeared) and **possible silent security fixes** (a finding vanished from a changed file - how patched vulnerabilities are usually spotted). The graph marks added (+) and changed (~) files.
-- **Runtime trace** - install the bundled **Pluginlore Trace** plugin on a *local* test site, use the site, export the trace and import it. Files that really loaded get a green pip; the Runtime tab lists handlers your testing never exercised.
+- **Runtime trace** - install the bundled **Pluginlore Trace** plugin on a *staging* site (or a live site, with caution), use the site, export the trace and import it. Files that really loaded get a green pip; the Runtime tab lists handlers your testing never exercised.
 
 ### Share it
 - **Report export** - standalone HTML (or print to PDF) with your agency name, client, logo and notes: summary, structure map, access table, findings, duplicates, version changes, runtime coverage, and a methodology/limitations section.
@@ -94,7 +94,7 @@ node src/cli/index.js diff <old.zip|dir> <new.zip|dir> [--json diff.json] [--fai
 
 ## Runtime trace (companion plugin)
 
-1. On a **local development** site, install `pluginlore-trace.zip` (Plugins → Add New → Upload).
+1. On a **staging** site (or a live site, with caution), install `pluginlore-trace.zip` (Plugins → Add New → Upload).
 2. Add `define( 'PLUGINLORE_TRACE', true );` to `wp-config.php`. Nothing is recorded without it.
 3. Use the site, then Tools → Pluginlore Trace → **Download trace**.
 4. In Pluginlore, load the same plugin zip and use **Runtime trace → Import**.
@@ -121,7 +121,7 @@ src/cli/         command-line wrapper
 web/             static front-end (canvas graph, tables, report, worker)
   src/runner.js    WordPress Playground sandbox (loaded only when you press Run)
   src/harness.js   PHP that activates the plugin and calls one function, with a hook tracer
-companion/       Pluginlore Trace WordPress plugin (dev-only)
+companion/       Pluginlore Trace WordPress plugin (staging; live with caution)
 samples/         practice plugins + manifest.js (+ pack.js, shared by build and tests)
 test/            node:test suite + fixtures (npm test)
 ```

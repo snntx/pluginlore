@@ -800,7 +800,7 @@ function tableRuntime() {
   const untested = handlers.filter((h) => !h.hits);
   return `
     <div class="tv-head"><h2>Runtime trace</h2><span class="muted small">${t.totalRequests} recorded request(s)</span></div>
-    <p class="tv-note">Files the companion plugin saw PHP load during real requests on your test site. Static analysis says what <em>could</em> run; this shows what <em>did</em>.</p>
+    <p class="tv-note">Files the companion plugin saw PHP load during real requests on your staging site. Static analysis says what <em>could</em> run; this shows what <em>did</em>.</p>
     <div class="cards">
       ${card(t.matchedRequests, 'requests touching this package')}
       ${card(`${Math.round(t.coverage * 100)}%`, 'of PHP files loaded', t.coverage < 0.5 ? 'warn' : 'good')}

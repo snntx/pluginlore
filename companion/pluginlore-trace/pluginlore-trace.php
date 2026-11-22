@@ -1,7 +1,7 @@
 <?php
 /**
- * Plugin Name: Pluginlore Trace (local dev only)
- * Description: Records which plugin and theme files load for each request (AJAX, REST, admin-post, pages) so Pluginlore can overlay real runtime paths on its static graph. Install on a LOCAL development site only.
+ * Plugin Name: Pluginlore Trace (staging, or live with caution)
+ * Description: Records which plugin and theme files load for each request (AJAX, REST, admin-post, pages) so Pluginlore can overlay real runtime paths on its static graph. Best on a staging site; on a live site use it with caution and switch it off when you are done.
  * Version: 0.1.0
  * Requires PHP: 7.4
  * License: GPL-2.0-or-later
@@ -11,7 +11,10 @@
  *     define( 'PLUGINLORE_TRACE', true );
  * Then use your site normally and export the log from Tools → Pluginlore Trace.
  * Nothing is ever sent anywhere; the log stays in this site's database until
- * you download or clear it.
+ * you download or clear it. It stores only the page path (no query string), the
+ * request method, whether the visitor was logged in, and which files loaded, for
+ * the last 500 requests. Best on a staging site; on a live site it adds one
+ * database write per request, so switch it off when you are done.
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -128,7 +131,7 @@ function pluginlore_trace_page() {
 		<h1>Pluginlore Trace</h1>
 		<?php if ( ! pluginlore_trace_enabled() ) : ?>
 			<div class="notice notice-warning inline"><p>
-				Not recording. Add <code>define( 'PLUGINLORE_TRACE', true );</code> to <code>wp-config.php</code> on a local development site.
+				Not recording. Add <code>define( 'PLUGINLORE_TRACE', true );</code> to <code>wp-config.php</code> on a staging site (or a live site, with caution).
 			</p></div>
 		<?php else : ?>
 			<div class="notice notice-success inline"><p>Recording. Use the site (click buttons, submit forms, load pages), then export.</p></div>
