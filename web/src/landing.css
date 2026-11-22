@@ -190,6 +190,3 @@ html:has(body.landing) { scroll-behavior: smooth; }
 @keyframes launch-bob { 0%, 100% { transform: translate(0, 0) rotate(0); } 50% { transform: translate(2px, -3px) rotate(-5deg); } }
 @media (max-width: 480px) { .landing .btn.launch { font-size: 19px; } }
 
-/* Launch click: the button locks while the rocket burst plays */
-.btn.launch.going { pointer-events: none; filter: brightness(1.06); transform: translate(3px, 3px); box-shadow: 3px 3px 0 var(--ink); }
-.btn.launch.going .rocket { animation: none; opacity: 0; }

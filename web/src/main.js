@@ -1562,27 +1562,4 @@ function renderRunResult(res, layout, inst) {
 }
 
 
-// Launched from the landing page: the screen is solid yellow (the owl's belly). Shrink that yellow
-// back into the header owl, revealing the app underneath.
-function enterReveal() {
-  const root = document.documentElement;
-  if (!root.classList.contains('pl-enter')) return;
-  const mark = document.querySelector('.topbar .brand-mark');
-  const r = mark ? mark.getBoundingClientRect() : { left: 24, top: 20, width: 34, height: 34 };
-  const x = r.left + r.width / 2, y = r.top + r.height * .6;
-  const far = Math.hypot(Math.max(x, innerWidth - x), Math.max(y, innerHeight - y)) + 20;
-  const veil = document.createElement('div');
-  Object.assign(veil.style, { position: 'fixed', inset: 0, background: '#ffd23f', zIndex: 2147483000, pointerEvents: 'none' });
-  document.body.appendChild(veil);
-  root.classList.remove('pl-enter');
-  if (matchMedia('(prefers-reduced-motion: reduce)').matches) { veil.remove(); return; }
-  const a = veil.animate([
-    { clipPath: `circle(${far}px at ${x}px ${y}px)` },
-    { clipPath: `circle(${far * .9}px at ${x}px ${y}px)`, offset: .12 },
-    { clipPath: `circle(0px at ${x}px ${y}px)` },
-  ], { duration: 820, easing: 'cubic-bezier(.65,0,.25,1)', fill: 'forwards' });
-  a.onfinish = () => { veil.remove(); if (mark) mark.animate([{ transform: 'scale(1.35)' }, { transform: 'scale(1)' }], { duration: 380, easing: 'cubic-bezier(.2,1.6,.4,1)' }); };
-}
-
 init();
-enterReveal();

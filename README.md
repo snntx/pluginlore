@@ -154,3 +154,16 @@ npm run pack:web        # builds, then writes web/pluginlore-site.zip (no source
 ```
 
 In cPanel: File Manager, open the domain's folder (usually `public_html`), delete any default `index.php` or `index.html` left by the host, upload `pluginlore-site.zip` and choose Extract. Switch on the free SSL certificate (AutoSSL) so the HTTPS redirect in `.htaccess` works. The landing page is `/` and the app is `/app.html`.
+
+## Deploy on Cloudflare Pages
+
+Connect the repository in Cloudflare (Workers & Pages, Create, Pages, Connect to Git), then use:
+
+| Setting | Value |
+|---|---|
+| Framework preset | None |
+| Build command | `npm ci && npm run build:web` |
+| Build output directory | `web/dist` |
+| Environment variable | `NODE_VERSION` = `22` |
+
+The build writes a `_headers` file (security headers, long caching for fonts and chunks) that Cloudflare Pages applies automatically. Every push to `main` redeploys.

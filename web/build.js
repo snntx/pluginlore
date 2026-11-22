@@ -103,6 +103,21 @@ function zipSite() {
   console.log(`Packed ${Object.keys(files).length} files to web/pluginlore-site.zip`);
 }
 
+// Cloudflare Pages / Netlify: same idea as the .htaccess, in their format.
+const HEADERS = `/*
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+
+/*.html
+  Cache-Control: public, max-age=0, must-revalidate
+
+/fonts/*
+  Cache-Control: public, max-age=31536000, immutable
+
+/chunks/*
+  Cache-Control: public, max-age=31536000, immutable
+`;
+
 async function build() {
   // app.js + lazily-loaded chunks (the WordPress Playground client only loads when someone presses Run)
   await esbuild.build({
@@ -127,6 +142,8 @@ async function build() {
   zipCompanion();
   // .htaccess for shared hosting: correct MIME types.
   writeFileSync(join(outdir, '.htaccess'), HTACCESS);
+  // _headers for Cloudflare Pages / Netlify: security headers and caching (ignored by other hosts).
+  writeFileSync(join(outdir, '_headers'), HEADERS);
   console.log(`\nBuilt to web/dist  (${serve ? 'dev' : 'minified'}; vuln scanner: ${vulnEnabled ? 'enabled' : 'DISABLED'})`);
 }
 

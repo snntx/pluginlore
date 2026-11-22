@@ -576,7 +576,3 @@ textarea.mono { font-family: var(--mono); font-size: 12px; }
 @keyframes owl-blink { 0%, 90%, 100% { transform: scaleY(0); } 94% { transform: scaleY(1); } }
 
 
-/* Arriving from the landing page's Launch: start fully yellow, then the app is revealed (see main.js) */
-html.pl-enter { background: #ffd23f; }
-html.pl-enter body { opacity: 0; animation: pl-failsafe 0s 2.5s forwards; }
-@keyframes pl-failsafe { to { opacity: 1; } }
