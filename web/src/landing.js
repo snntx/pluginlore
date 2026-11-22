@@ -48,104 +48,63 @@ $('themeBtn').onclick = () => {
   }, 900);
 })();
 
-// Launch: a burst of white rockets curls away from the button, each trailing a fading streak,
-// like a loading animation. The app opens when the burst has played.
+// Launch: the owl leaves the logo, glides to the centre of the screen, then zooms into its own
+// yellow body until it fills the screen; the app then opens and reveals itself out of that colour.
 (function launch() {
-  const btn = $('launchBtn');
+  const btn = $('launchBtn'), logo = document.querySelector('.l-nav .brand-mark');
   if (!btn) return;
   const dest = btn.getAttribute('href');
-  const body = new Path2D('M12 2.5c3.2 2 5 5.2 5 9.2l-2.1 3.3H9.1L7 11.7c0-4 1.8-7.2 5-9.2z');
-  const fins = new Path2D('M9.1 15 6 18.2v-3.6l1-2.2M14.9 15l3.1 3.2v-3.6l-1-2.2');
-  const flame = new Path2D('M10.4 18.2c0 2 1.6 3.3 1.6 3.3s1.6-1.3 1.6-3.3');
-  const INK = '#1c1a15', COBALT = '#3150f5';
-  let canvas, raf, timer;
+  let owl, cover, timers = [];
+  const go = () => { try { sessionStorage.setItem('pl-launch', '1'); } catch { /* fine */ } if (!location.search.includes('nonav')) location.href = dest; };
 
   function cleanup() {
-    cancelAnimationFrame(raf); clearTimeout(timer);
-    if (canvas) { canvas.remove(); canvas = null; }
-    btn.classList.remove('going');
-    btn.lastChild.textContent = ' Launch Pluginlore';
+    timers.forEach(clearTimeout); timers = [];
+    owl?.remove(); cover?.remove(); owl = cover = null;
+    if (logo) logo.style.visibility = '';
+    btn.classList.remove('going'); btn.lastChild.textContent = ' Launch Pluginlore';
   }
-  addEventListener('pageshow', (e) => { if (e.persisted) cleanup(); }); // coming back with the Back button
+  addEventListener('pageshow', (e) => { if (e.persisted) cleanup(); }); // back from the app
 
   btn.addEventListener('click', (e) => {
     if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
     e.preventDefault();
     if (btn.classList.contains('going')) return;
-    if (matchMedia('(prefers-reduced-motion: reduce)').matches) { location.href = dest; return; }
-    btn.classList.add('going');
-    btn.lastChild.textContent = ' Launching...';
+    if (!logo || matchMedia('(prefers-reduced-motion: reduce)').matches) return go();
+    btn.classList.add('going'); btn.lastChild.textContent = ' Launching...';
 
-    const dpr = Math.min(devicePixelRatio || 1, 2);
-    canvas = document.createElement('canvas'); canvas.id = 'burst';
-    canvas.width = innerWidth * dpr; canvas.height = innerHeight * dpr;
-    document.body.appendChild(canvas);
-    const g = canvas.getContext('2d'); g.scale(dpr, dpr);
+    // a copy of the logo owl takes off from exactly where the logo sits
+    const r = logo.getBoundingClientRect(), W = r.width;
+    owl = logo.cloneNode(true); owl.removeAttribute('aria-hidden');
+    Object.assign(owl.style, { position: 'fixed', left: r.left + 'px', top: r.top + 'px', width: W + 'px', height: W + 'px',
+      margin: 0, zIndex: 90, overflow: 'visible', willChange: 'transform', pointerEvents: 'none' });
+    // zoom into a point on the owl's belly (below the beak, above the chest line): pure yellow
+    const ox = W * 20 / 40, oy = W * 29.6 / 40;
+    owl.style.transformOrigin = `${ox}px ${oy}px`;
+    document.body.appendChild(owl); logo.style.visibility = 'hidden';
 
-    const icon = btn.querySelector('.rocket').getBoundingClientRect();
-    const ox = icon.left + icon.width / 2, oy = icon.top + icon.height / 2;
-    const rockets = [];
-    const WAVES = 4, PER = 6, GAP = 230;
-    for (let w = 0; w < WAVES; w++) for (let i = 0; i < PER; i++) {
-      const dir = Math.random() * Math.PI * 2;
-      rockets.push({
-        t0: w * GAP + i * 28, x: ox, y: oy, a: dir, trail: [],
-        v: 320 + Math.random() * 380, acc: 520 + Math.random() * 600,
-        turn: (Math.random() < .5 ? -1 : 1) * (1.2 + Math.random() * 3.2),
-        size: 26 + Math.random() * 22, life: 1150 + Math.random() * 450, spin: Math.random() * 6,
-      });
-    }
-    const t0 = performance.now(); let last = t0;
-    const END = (WAVES - 1) * GAP + PER * 28 + 1700;
+    const cx = innerWidth / 2, cy = innerHeight / 2;
+    const dx = cx - (r.left + ox), dy = cy - (r.top + oy);
+    const mid = Math.min(innerWidth, innerHeight) * .34 / W;            // owl size while it glides
+    const unit = W / 40, cornerFree = 6.2;                              // belly point -> nearest edge, in owl units
+    const big = (Math.hypot(innerWidth, innerHeight) / 2 + 40) / (cornerFree * unit);
 
-    function frame(now) {
-      const t = now - t0, dt = Math.min(.05, (now - last) / 1000); last = now;
-      g.clearRect(0, 0, innerWidth, innerHeight);
-      for (const r of rockets) {
-        const age = t - r.t0;
-        if (age < 0) continue;
-        const k = age / r.life;
-        if (k < 1) {
-          r.v += r.acc * dt;
-          r.a += r.turn * dt * (1 - k * .4);              // keeps curling while it flies
-          r.x += Math.cos(r.a) * r.v * dt; r.y += Math.sin(r.a) * r.v * dt;
-          r.trail.push([r.x, r.y]); if (r.trail.length > 40) r.trail.shift();
-        } else if (r.trail.length) r.trail.shift();         // trail drains away after the rocket is gone
-        const fade = k < 1 ? 1 : 0;
-        // trail: one tapered ribbon (wide near the rocket, thin at the tail), so it reads as a smooth streak
-        const n = r.trail.length;
-        if (n > 2) {
-          const wMax = r.size * .2, left = [], right = [];
-          for (let i = 0; i < n; i++) {
-            const p = i / (n - 1), a0 = r.trail[Math.max(0, i - 1)], a1 = r.trail[Math.min(n - 1, i + 1)];
-            const dx = a1[0] - a0[0], dy = a1[1] - a0[1], len = Math.hypot(dx, dy) || 1;
-            const w = (.4 + p * wMax) / 2, nx = -dy / len * w, ny = dx / len * w;
-            left.push([r.trail[i][0] + nx, r.trail[i][1] + ny]); right.push([r.trail[i][0] - nx, r.trail[i][1] - ny]);
-          }
-          g.beginPath(); g.moveTo(left[0][0], left[0][1]);
-          for (let i = 1; i < n; i++) g.lineTo(left[i][0], left[i][1]);
-          for (let i = n - 1; i >= 0; i--) g.lineTo(right[i][0], right[i][1]);
-          g.closePath();
-          const grad = g.createLinearGradient(r.trail[0][0], r.trail[0][1], r.trail[n - 1][0], r.trail[n - 1][1]);
-          grad.addColorStop(0, 'rgba(49,80,245,0)'); grad.addColorStop(1, 'rgba(49,80,245,.7)');
-          g.globalAlpha = k < 1 ? 1 : Math.max(0, 1 - (k - 1) * 3);
-          g.fillStyle = grad; g.fill();
-        }
-        if (!fade) continue;
-        const o = k > .8 ? 1 - (k - .8) / .2 : 1;           // fade out at the end of its flight
-        g.save(); g.globalAlpha = Math.max(0, o);
-        g.translate(r.x, r.y); g.rotate(r.a + Math.PI / 2 + Math.sin(age / 90 + r.spin) * .25);
-        const s = r.size / 24; g.scale(s, s); g.translate(-12, -12);
-        g.lineJoin = 'round'; g.lineCap = 'round'; g.lineWidth = 1.7 / s * 1.15;
-        g.fillStyle = '#fff'; g.strokeStyle = INK;
-        g.fill(body); g.stroke(body); g.stroke(fins); g.stroke(flame);
-        g.beginPath(); g.arc(12, 9.5, 1.7, 0, 7); g.fillStyle = COBALT; g.fill(); g.stroke();
-        g.restore();
-      }
-      g.globalAlpha = 1;
-      if (t < END) raf = requestAnimationFrame(frame);
-    }
-    raf = requestAnimationFrame(frame);
-    timer = setTimeout(() => { if (!location.search.includes('nonav')) location.href = dest; }, 1500);
+    const fly = owl.animate([
+      { transform: 'translate(0,0) scale(1) rotate(0deg)' },
+      { transform: `translate(${dx * .55}px, ${dy * .55 - innerHeight * .12}px) scale(${mid * .6}) rotate(-14deg)`, offset: .55 },
+      { transform: `translate(${dx}px, ${dy}px) scale(${mid}) rotate(0deg)` },
+    ], { duration: 720, easing: 'cubic-bezier(.45,0,.2,1)', fill: 'forwards' });
+    fly.onfinish = () => {
+      const zoom = owl.animate([
+        { transform: `translate(${dx}px, ${dy}px) scale(${mid}) rotate(0deg)` },
+        { transform: `translate(${dx}px, ${dy}px) scale(${mid * 1.08}) rotate(0deg)`, offset: .18 },
+        { transform: `translate(${dx}px, ${dy}px) scale(${big}) rotate(0deg)` },
+      ], { duration: 620, easing: 'cubic-bezier(.7,0,.84,0)', fill: 'forwards' });
+      zoom.onfinish = () => {
+        cover = document.createElement('div');
+        Object.assign(cover.style, { position: 'fixed', inset: 0, background: '#ffd23f', zIndex: 91 });
+        document.body.appendChild(cover);
+        timers.push(setTimeout(go, 40));
+      };
+    };
   });
 })();

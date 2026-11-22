@@ -193,4 +193,3 @@ html:has(body.landing) { scroll-behavior: smooth; }
 /* Launch click: the button locks while the rocket burst plays */
 .btn.launch.going { pointer-events: none; filter: brightness(1.06); transform: translate(3px, 3px); box-shadow: 3px 3px 0 var(--ink); }
 .btn.launch.going .rocket { animation: none; opacity: 0; }
-#burst { position: fixed; inset: 0; width: 100%; height: 100%; z-index: 70; pointer-events: none; }

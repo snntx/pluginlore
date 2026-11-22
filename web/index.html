@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
+  <script>try{if(sessionStorage.getItem("pl-launch")){sessionStorage.removeItem("pl-launch");document.documentElement.classList.add("pl-enter")}}catch(e){}</script>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Pluginlore - see how a WordPress plugin works</title>
   <meta name="description" content="Pluginlore turns any WordPress plugin or theme into an interactive map and a plain-English walkthrough: what loads when, which file does what, who can call what. Load from a zip or straight from WordPress.org, any version. Your code never leaves your browser." />
@@ -42,7 +43,7 @@
   </svg>
 
   <header class="topbar">
-    <a class="brand" href="./" aria-label="Pluginlore home">
+    <a class="brand" href="app.html" id="brandLink" aria-label="Reload Pluginlore" title="Reload">
       <svg class="brand-mark owl" viewBox="0 0 40 40" aria-hidden="true"><g class="o-tilt"><rect class="o-prong" x="12.8" y="4.5" width="3" height="8" rx="1"/><rect class="o-prong" x="24.2" y="4.5" width="3" height="8" rx="1"/><rect class="o-body" x="9" y="11" width="22" height="25" rx="10"/><circle class="o-eye" cx="15.5" cy="20" r="4.2"/><circle class="o-eye" cx="24.5" cy="20" r="4.2"/><circle class="o-pupil" cx="15.8" cy="20.4" r="1.7"/><circle class="o-pupil" cx="24.8" cy="20.4" r="1.7"/><rect class="o-lid" x="11" y="15.6" width="9" height="8.9"/><rect class="o-lid" x="20" y="15.6" width="9" height="8.9"/><path class="o-beak" d="M18.6 25.2L20 27.6L21.4 25.2Z"/><path class="o-line" d="M15 31.2Q20 33.6 25 31.2"/><path class="o-line" d="M16 36v2M24 36v2"/></g></svg>
       <span class="brand-name">Plugin<span class="hl">lore</span></span>
       <span class="brand-tag">see how a WordPress plugin works</span>
