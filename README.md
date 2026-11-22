@@ -139,7 +139,7 @@ test/            node:test suite + fixtures (npm test)
 
 GPL-2.0-or-later (see `LICENSE`). Pluginlore is free software: you can use, change and share it, and anything you distribute that's built from it must stay under the same license with its source available. This matches WordPress itself and WordPress Playground, which the web app bundles.
 
-Pluginlore is free forever and funded by donations (Buy Me a Coffee); the GPL allows that.
+Pluginlore is free forever and funded by donations (GitHub Sponsors and Ko-fi); the GPL allows that. The links live in `web/src/links.js`; an empty link hides its button, and `.github/FUNDING.yml` adds a Sponsor button to the repository.
 
 ### Third-party services
 

@@ -104,7 +104,7 @@ function init() {
   window.addEventListener('keydown', (e) => {
     if (e.key !== 'Escape') return;
     hideTerm();
-    ['galleryModal', 'reportModal', 'wporgModal', 'runModal'].forEach((id) => $(id).classList.add('hidden'));
+    ['galleryModal', 'reportModal', 'wporgModal', 'runModal', 'supportModal'].forEach((id) => $(id).classList.add('hidden'));
     if (simActive && !tour) stopSim();
   });
   // Deep links from the landing page: #practice opens the practice plugins, #wporg the directory search
@@ -125,7 +125,13 @@ function init() {
     view.refreshColors();
   };
 
-  $('coffeeBtn').href = LINKS.coffee;
+  // Support: shown only when at least one link is filled in (web/src/links.js)
+  const sup = [['sponsorsLink', LINKS.sponsors], ['kofiLink', LINKS.kofi]].filter(([, url]) => url);
+  sup.forEach(([id, url]) => { $(id).href = url; $(id).classList.remove('hidden'); });
+  $('supportBtn').classList.toggle('hidden', !sup.length);
+  $('supportBtn').onclick = () => $('supportModal').classList.remove('hidden');
+  $('supportClose').onclick = () => $('supportModal').classList.add('hidden');
+  $('supportModal').addEventListener('click', (e) => { if (e.target === $('supportModal')) $('supportModal').classList.add('hidden'); });
 
   // primary package
   wireDrop($('dropzone'), $('fileInput'), (f) => loadPrimary(f));
