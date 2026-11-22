@@ -151,15 +151,14 @@ html:has(body.landing) { scroll-behavior: smooth; }
 
 /* ---------- Hero: Launch button + one-time spotlight ---------- */
 .btn.launch { gap: 9px; position: relative; }
-.btn.launch .rocket { width: 22px; height: 22px; fill: var(--marker); stroke: var(--ink); stroke-width: 1.7; overflow: visible; }
-.btn.launch .rocket * { fill: var(--marker); stroke: var(--ink); }
-.btn.launch .rocket circle { fill: #fff; }
+.btn.launch .rocket { width: 22px; height: 22px; fill: #fff; stroke: var(--ink); stroke-width: 1.7; overflow: visible; }
+.btn.launch .rocket * { fill: #fff; stroke: var(--ink); }
+.btn.launch .rocket circle { fill: var(--cobalt); }
 .btn.launch:hover .rocket { transform: translate(2px, -2px) rotate(-6deg); }
 .btn.launch .rocket { transition: transform .2s cubic-bezier(.2, 1.5, .4, 1); }
 #spot { position: fixed; z-index: 60; pointer-events: none; border-radius: 16px; opacity: 0;
   box-shadow: 0 0 0 9999px rgba(20, 18, 12, .58), 0 0 0 3px var(--marker), 0 0 28px 6px rgba(255, 210, 63, .55); }
-#spotRing { position: fixed; z-index: 61; pointer-events: none; border-radius: 16px; border: 2.5px solid var(--marker); opacity: 0; }
-@media (prefers-reduced-motion: reduce) { #spot, #spotRing { display: none; } }
+@media (prefers-reduced-motion: reduce) { #spot { display: none; } }
 
 /* ---------- Type scale: 16px floor for readable text and every button ---------- */
 .landing .btn, .landing .btn.small, .landing .btn.big { font-size: 16px; }
@@ -181,15 +180,17 @@ html:has(body.landing) { scroll-behavior: smooth; }
 .btn.launch:hover { background: var(--cobalt); filter: brightness(1.1); transform: translate(-2px, -2px); box-shadow: 9px 9px 0 var(--ink); }
 .btn.launch:active { transform: translate(5px, 5px); box-shadow: 2px 2px 0 var(--ink); }
 .btn.launch .rocket { width: 30px; height: 30px; }
-.btn.launch::before { content: ''; position: absolute; inset: -3px; border-radius: 16px; border: 3px solid var(--marker); opacity: 0; z-index: -1; pointer-events: none; }
 .btn.launch::after { content: ''; position: absolute; inset: 0; border-radius: 12px; overflow: hidden; pointer-events: none;
   background: linear-gradient(105deg, transparent 38%, rgba(255, 255, 255, .45) 50%, transparent 62%); background-size: 250% 100%; background-position: 160% 0; }
 @media (prefers-reduced-motion: no-preference) {
-  .btn.launch::before { animation: launch-ring 2.6s ease-out 1.5s infinite; }
   .btn.launch::after { animation: launch-shine 3.4s ease-in-out 2s infinite; }
   .btn.launch .rocket { animation: launch-bob 2.2s ease-in-out infinite; }
 }
-@keyframes launch-ring { 0% { opacity: .95; transform: scale(1); } 70%, 100% { opacity: 0; transform: scale(1.22, 1.5); } }
 @keyframes launch-shine { 0%, 55% { background-position: 160% 0; } 100% { background-position: -60% 0; } }
 @keyframes launch-bob { 0%, 100% { transform: translate(0, 0) rotate(0); } 50% { transform: translate(2px, -3px) rotate(-5deg); } }
 @media (max-width: 480px) { .landing .btn.launch { font-size: 19px; } }
+
+/* Launch click: the button locks while the rocket burst plays */
+.btn.launch.going { pointer-events: none; filter: brightness(1.06); transform: translate(3px, 3px); box-shadow: 3px 3px 0 var(--ink); }
+.btn.launch.going .rocket { animation: none; opacity: 0; }
+#burst { position: fixed; inset: 0; width: 100%; height: 100%; z-index: 70; pointer-events: none; }
