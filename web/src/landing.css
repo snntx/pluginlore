@@ -160,3 +160,36 @@ html:has(body.landing) { scroll-behavior: smooth; }
   box-shadow: 0 0 0 9999px rgba(20, 18, 12, .58), 0 0 0 3px var(--marker), 0 0 28px 6px rgba(255, 210, 63, .55); }
 #spotRing { position: fixed; z-index: 61; pointer-events: none; border-radius: 16px; border: 2.5px solid var(--marker); opacity: 0; }
 @media (prefers-reduced-motion: reduce) { #spot, #spotRing { display: none; } }
+
+/* ---------- Type scale: 16px floor for readable text and every button ---------- */
+.landing .btn, .landing .btn.small, .landing .btn.big { font-size: 16px; }
+.landing .btn.small { padding: 7px 14px; }
+.landing .btn.big { padding: 12px 20px; }
+.l-links a { font-size: 16px; }
+.l-kicker { font-size: 14px; }
+.l-mode p, .l-steps p, .l-who-card p, .l-honest li { font-size: 16px; }
+.l-learn-note { font-size: 16px; }
+.l-note, .l-foot, .l-foot p, .l-foot .small, .landing .muted.small { font-size: 16px; }
+.l-flag { font-size: 14px; }
+
+/* ---------- Launch: the one button that has to be found ---------- */
+.l-cta .btn.big:not(.launch) { box-shadow: 3px 3px 0 var(--ink); }
+.landing .btn.launch {
+  font-size: 20px; font-weight: 760; padding: 17px 32px 17px 26px !important; gap: 12px; border-width: 2.5px; border-radius: 14px;
+  background: var(--cobalt); color: #fff; box-shadow: 7px 7px 0 var(--ink); overflow: visible; isolation: isolate;
+}
+.btn.launch:hover { background: var(--cobalt); filter: brightness(1.1); transform: translate(-2px, -2px); box-shadow: 9px 9px 0 var(--ink); }
+.btn.launch:active { transform: translate(5px, 5px); box-shadow: 2px 2px 0 var(--ink); }
+.btn.launch .rocket { width: 30px; height: 30px; }
+.btn.launch::before { content: ''; position: absolute; inset: -3px; border-radius: 16px; border: 3px solid var(--marker); opacity: 0; z-index: -1; pointer-events: none; }
+.btn.launch::after { content: ''; position: absolute; inset: 0; border-radius: 12px; overflow: hidden; pointer-events: none;
+  background: linear-gradient(105deg, transparent 38%, rgba(255, 255, 255, .45) 50%, transparent 62%); background-size: 250% 100%; background-position: 160% 0; }
+@media (prefers-reduced-motion: no-preference) {
+  .btn.launch::before { animation: launch-ring 2.6s ease-out 1.5s infinite; }
+  .btn.launch::after { animation: launch-shine 3.4s ease-in-out 2s infinite; }
+  .btn.launch .rocket { animation: launch-bob 2.2s ease-in-out infinite; }
+}
+@keyframes launch-ring { 0% { opacity: .95; transform: scale(1); } 70%, 100% { opacity: 0; transform: scale(1.22, 1.5); } }
+@keyframes launch-shine { 0%, 55% { background-position: 160% 0; } 100% { background-position: -60% 0; } }
+@keyframes launch-bob { 0%, 100% { transform: translate(0, 0) rotate(0); } 50% { transform: translate(2px, -3px) rotate(-5deg); } }
+@media (max-width: 480px) { .landing .btn.launch { font-size: 19px; } }
