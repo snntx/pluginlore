@@ -48,22 +48,28 @@ $('themeBtn').onclick = () => {
   }, 900);
 })();
 
-// Launch: the owl leaves the logo, glides to the centre of the screen, then zooms into its own
-// yellow body until it fills the screen; the app then opens and reveals itself out of that colour.
+// Launch: the owl leaves the logo and glides to the centre at full sharpness, then melts: its body
+// stretches and drips into liquid yellow that merges (SVG "goo" filter) and floods the whole screen.
+// Everything is vector, so nothing is ever scaled up from pixels. The app then opens and reveals itself.
 (function launch() {
   const btn = $('launchBtn'), logo = document.querySelector('.l-nav .brand-mark');
   if (!btn) return;
   const dest = btn.getAttribute('href');
-  let owl, cover, timers = [];
+  const YELLOW = '#ffd23f', NS = 'http://www.w3.org/2000/svg';
+  let owl, goo, cover, timers = [];
+  const later = (fn, ms) => timers.push(setTimeout(fn, ms));
   const go = () => { try { sessionStorage.setItem('pl-launch', '1'); } catch { /* fine */ } if (!location.search.includes('nonav')) location.href = dest; };
 
   function cleanup() {
     timers.forEach(clearTimeout); timers = [];
-    owl?.remove(); cover?.remove(); owl = cover = null;
+    owl?.remove(); goo?.remove(); cover?.remove(); owl = goo = cover = null;
     if (logo) logo.style.visibility = '';
     btn.classList.remove('going'); btn.lastChild.textContent = ' Launch Pluginlore';
   }
   addEventListener('pageshow', (e) => { if (e.persisted) cleanup(); }); // back from the app
+
+  const el = (name, attrs, parent) => { const n = document.createElementNS(NS, name); for (const k in attrs) n.setAttribute(k, attrs[k]); parent?.appendChild(n); return n; };
+  const rnd = (a, b) => a + Math.random() * (b - a);
 
   btn.addEventListener('click', (e) => {
     if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
@@ -72,39 +78,80 @@ $('themeBtn').onclick = () => {
     if (!logo || matchMedia('(prefers-reduced-motion: reduce)').matches) return go();
     btn.classList.add('going'); btn.lastChild.textContent = ' Launching...';
 
-    // a copy of the logo owl takes off from exactly where the logo sits
-    const r = logo.getBoundingClientRect(), W = r.width;
+    const W = innerWidth, H = innerHeight, cx = W / 2, cy = H / 2;
+    const S = Math.min(W, H) * .36;                         // owl size while it is centred
+    const r = logo.getBoundingClientRect();
+    const lx = r.left + r.width / 2, ly = r.top + r.height / 2;
+
+    // The owl is created at its large size and shrunk to the logo (not the other way round),
+    // so the browser rasterises it big and it stays sharp the whole flight.
     owl = logo.cloneNode(true); owl.removeAttribute('aria-hidden');
-    Object.assign(owl.style, { position: 'fixed', left: r.left + 'px', top: r.top + 'px', width: W + 'px', height: W + 'px',
-      margin: 0, zIndex: 90, overflow: 'visible', willChange: 'transform', pointerEvents: 'none' });
-    // zoom into a point on the owl's belly (below the beak, above the chest line): pure yellow
-    const ox = W * 20 / 40, oy = W * 29.6 / 40;
-    owl.style.transformOrigin = `${ox}px ${oy}px`;
+    Object.assign(owl.style, { position: 'fixed', left: cx - S / 2 + 'px', top: cy - S / 2 + 'px', width: S + 'px', height: S + 'px',
+      margin: 0, zIndex: 90, overflow: 'visible', pointerEvents: 'none', transformOrigin: '50% 50%' });
     document.body.appendChild(owl); logo.style.visibility = 'hidden';
-
-    const cx = innerWidth / 2, cy = innerHeight / 2;
-    const dx = cx - (r.left + ox), dy = cy - (r.top + oy);
-    const mid = Math.min(innerWidth, innerHeight) * .34 / W;            // owl size while it glides
-    const unit = W / 40, cornerFree = 6.2;                              // belly point -> nearest edge, in owl units
-    const big = (Math.hypot(innerWidth, innerHeight) / 2 + 40) / (cornerFree * unit);
-
+    const k0 = r.width / S, dx0 = lx - cx, dy0 = ly - cy;
+    const start = `translate(${dx0}px, ${dy0}px) scale(${k0}) rotate(0deg)`;
+    owl.style.transform = start;
     const fly = owl.animate([
-      { transform: 'translate(0,0) scale(1) rotate(0deg)' },
-      { transform: `translate(${dx * .55}px, ${dy * .55 - innerHeight * .12}px) scale(${mid * .6}) rotate(-14deg)`, offset: .55 },
-      { transform: `translate(${dx}px, ${dy}px) scale(${mid}) rotate(0deg)` },
-    ], { duration: 720, easing: 'cubic-bezier(.45,0,.2,1)', fill: 'forwards' });
+      { transform: start },
+      { transform: `translate(${dx0 * .45}px, ${dy0 * .45 - H * .1}px) scale(${k0 + (1 - k0) * .55}) rotate(-12deg)`, offset: .55 },
+      { transform: 'translate(0px, 0px) scale(1) rotate(0deg)' },
+    ], { duration: 760, easing: 'cubic-bezier(.4,0,.2,1)', fill: 'forwards' });
+
     fly.onfinish = () => {
-      const zoom = owl.animate([
-        { transform: `translate(${dx}px, ${dy}px) scale(${mid}) rotate(0deg)` },
-        { transform: `translate(${dx}px, ${dy}px) scale(${mid * 1.08}) rotate(0deg)`, offset: .18 },
-        { transform: `translate(${dx}px, ${dy}px) scale(${big}) rotate(0deg)` },
-      ], { duration: 620, easing: 'cubic-bezier(.7,0,.84,0)', fill: 'forwards' });
-      zoom.onfinish = () => {
-        cover = document.createElement('div');
-        Object.assign(cover.style, { position: 'fixed', inset: 0, background: '#ffd23f', zIndex: 91 });
-        document.body.appendChild(cover);
-        timers.push(setTimeout(go, 40));
-      };
+      // owl body geometry in screen pixels (the owl's viewBox is 40 units wide)
+      const u = S / 40, top = cy - S / 2;
+      const bx = cx, by = top + 23.5 * u, brx = 11 * u, bry = 12.5 * u, bottom = top + 36 * u;
+
+      goo = el('svg', { width: W, height: H, viewBox: `0 0 ${W} ${H}` });
+      Object.assign(goo.style, { position: 'fixed', inset: 0, zIndex: 91, pointerEvents: 'none' });
+      const defs = el('defs', {}, goo);
+      const f = el('filter', { id: 'plGoo', filterUnits: 'userSpaceOnUse', x: 0, y: 0, width: W, height: H, 'color-interpolation-filters': 'sRGB' }, defs);
+      el('feGaussianBlur', { in: 'SourceGraphic', stdDeviation: Math.max(8, S * .055), result: 'b' }, f);
+      el('feColorMatrix', { in: 'b', values: '1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 32 -14' }, f);
+      const g = el('g', { filter: 'url(#plGoo)', fill: YELLOW }, goo);
+      document.body.appendChild(goo);
+
+      // the body: starts as the owl's belly shape and sags downward
+      const body = el('ellipse', { cx: bx, cy: by, rx: brx, ry: bry }, g);
+      body.animate([{ ry: bry + 'px', cy: by + 'px' }, { ry: bry * 1.5 + 'px', cy: by + bry * .45 + 'px' }],
+        { duration: 650, easing: 'ease-in', fill: 'forwards' });
+
+      // the features slump and fade as the owl melts
+      owl.style.transformOrigin = '50% 88%';
+      owl.animate([
+        { transform: 'scale(1,1)', opacity: 1 },
+        { transform: 'translateY(2%) scale(1.04,.94)', opacity: 1, offset: .3 },
+        { transform: 'translateY(14%) scale(1.14,1.5)', opacity: 0 },
+      ], { duration: 560, easing: 'ease-in', fill: 'forwards' });
+
+      // drips: droplets fall from the belly, stretching as they go
+      const N = 11;
+      for (let i = 0; i < N; i++) {
+        const x = bx + (i / (N - 1) - .5) * brx * 1.7 + rnd(-6, 6);
+        const rr = rnd(.05, .1) * S, d = el('ellipse', { cx: x, cy: bottom - rr, rx: rr, ry: rr }, g);
+        const fall = (H - bottom) * rnd(.55, 1.05) + rr * 2, dur = rnd(620, 980), delay = rnd(0, 260);
+        d.animate([
+          { cy: bottom - rr + 'px', ry: rr + 'px', rx: rr + 'px' },
+          { cy: bottom + fall * .35 + 'px', ry: rr * 1.8 + 'px', rx: rr * .85 + 'px', offset: .45 },
+          { cy: bottom + fall + 'px', ry: rr * 3.2 + 'px', rx: rr * 1.4 + 'px' },
+        ], { duration: dur, delay, easing: 'cubic-bezier(.5,0,.9,.5)', fill: 'forwards' });
+      }
+
+      // the flood: the liquid swells from the belly until it has covered every corner
+      const far = Math.hypot(Math.max(bx, W - bx), Math.max(by, H - by)) + S;
+      const flood = el('circle', { cx: bx, cy: by, r: Math.min(brx, bry) * .9 }, g);
+      flood.animate([
+        { r: Math.min(brx, bry) * .9 + 'px' },
+        { r: far * .35 + 'px', offset: .45 },
+        { r: far + 'px' },
+      ], { duration: 980, delay: 330, easing: 'cubic-bezier(.55,0,.35,1)', fill: 'forwards' })
+        .onfinish = () => {
+          cover = document.createElement('div');
+          Object.assign(cover.style, { position: 'fixed', inset: 0, background: YELLOW, zIndex: 92 });
+          document.body.appendChild(cover);
+          later(go, 40);
+        };
     };
   });
 })();
