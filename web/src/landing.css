@@ -108,3 +108,55 @@ body.landing { overflow: auto; height: auto; min-height: 100%; font-size: 16px; 
 .l-section { scroll-margin-top: 72px; }
 html:has(body.landing) { scroll-behavior: smooth; }
 @media (prefers-reduced-motion: reduce) { html:has(body.landing) { scroll-behavior: auto; } }
+
+/* ---------- Made for: illustrated tiles ---------- */
+.l-who-card { display: flex; flex-direction: column; align-items: flex-start; }
+.mf-art { width: 132px; height: 118px; margin-bottom: 16px; border: 1.5px solid var(--ink); border-radius: 16px; box-shadow: var(--hard);
+  display: grid; place-items: center; transition: transform .22s cubic-bezier(.2, 1.4, .4, 1), box-shadow .22s; }
+.mf-art svg { width: 104px; height: 94px; overflow: visible; }
+.l-who-card:hover .mf-art { transform: translate(-2px, -3px) rotate(-1.5deg); box-shadow: 6px 7px 0 var(--ink); }
+.mf-learn { background: var(--marker-soft); }
+.mf-dev { background: var(--cobalt-soft); }
+.mf-agency { background: color-mix(in srgb, var(--ok) 14%, var(--card)); }
+.mf-art svg * { stroke: var(--ink); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; fill: none; }
+.mf-art .mf-bulb { fill: var(--marker); } .mf-art .mf-base { fill: var(--card); }
+.mf-art .mf-page, .mf-art .mf-win, .mf-art .mf-sheet { fill: var(--card); }
+.mf-art .mf-clip { fill: var(--marker); }
+.mf-art .mf-line { stroke-width: 1.5; stroke: var(--ink-soft); }
+.mf-art .mf-fil { stroke-width: 1.5; }
+.mf-art .mf-bar { stroke-width: 1.5; }
+.mf-art .mf-dot.a { fill: #ff6b5e; } .mf-art .mf-dot.b { fill: #ffcf4a; } .mf-art .mf-dot.c { fill: #54c48a; }
+.mf-art .mf-dot { stroke-width: 1.2; }
+.mf-art .mf-code { stroke: var(--cobalt); stroke-width: 3.2; }
+.mf-art .mf-slash { stroke: var(--ink); stroke-width: 3.2; }
+.mf-art .mf-caret { fill: var(--ink); stroke: none; }
+.mf-art .mf-ok { stroke: var(--ok); stroke-width: 3; }
+.mf-art .mf-bad { stroke: var(--danger); stroke-width: 3; }
+.mf-art .mf-glass { fill: color-mix(in srgb, var(--cobalt) 16%, var(--card)); }
+.mf-art .mf-handle { stroke-width: 4; }
+.mf-art .mf-shine { stroke: #fff; stroke-width: 2; opacity: .85; }
+.mf-art .mf-rays path { stroke: var(--ink); stroke-width: 2; }
+@media (prefers-reduced-motion: no-preference) {
+  .mf-learn .mf-rays { animation: mf-rays 2.4s ease-in-out infinite; transform-origin: 40px 20px; }
+  .mf-learn .mf-bulb { animation: mf-glow 2.4s ease-in-out infinite; }
+  .mf-dev .mf-caret { animation: mf-blink 1.05s steps(2, start) infinite; }
+  .mf-dev .mf-code { animation: mf-nudge 3.2s ease-in-out infinite; }
+  .mf-agency .mf-lens { animation: mf-scan 3.6s ease-in-out infinite; }
+}
+@keyframes mf-rays { 0%, 100% { opacity: .25; transform: scale(.92); } 50% { opacity: 1; transform: scale(1.06); } }
+@keyframes mf-glow { 0%, 100% { fill: var(--marker); } 50% { fill: #fff3a8; } }
+@keyframes mf-blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+@keyframes mf-nudge { 0%, 100% { transform: translateX(0); } 50% { transform: translateX(1.5px); } }
+@keyframes mf-scan { 0%, 100% { transform: translate(0, 0); } 35% { transform: translate(-22px, -16px); } 70% { transform: translate(-8px, -30px); } }
+
+/* ---------- Hero: Launch button + one-time spotlight ---------- */
+.btn.launch { gap: 9px; position: relative; }
+.btn.launch .rocket { width: 22px; height: 22px; fill: var(--marker); stroke: var(--ink); stroke-width: 1.7; overflow: visible; }
+.btn.launch .rocket * { fill: var(--marker); stroke: var(--ink); }
+.btn.launch .rocket circle { fill: #fff; }
+.btn.launch:hover .rocket { transform: translate(2px, -2px) rotate(-6deg); }
+.btn.launch .rocket { transition: transform .2s cubic-bezier(.2, 1.5, .4, 1); }
+#spot { position: fixed; z-index: 60; pointer-events: none; border-radius: 16px; opacity: 0;
+  box-shadow: 0 0 0 9999px rgba(20, 18, 12, .58), 0 0 0 3px var(--marker), 0 0 28px 6px rgba(255, 210, 63, .55); }
+#spotRing { position: fixed; z-index: 61; pointer-events: none; border-radius: 16px; border: 2.5px solid var(--marker); opacity: 0; }
+@media (prefers-reduced-motion: reduce) { #spot, #spotRing { display: none; } }

@@ -18,3 +18,39 @@ $('themeBtn').onclick = () => {
   document.documentElement.dataset.theme = next;
   store.set('sl-theme', next);
 };
+
+// One-time spotlight on the Launch button: dim the page, zoom in on it, pulse, then fade away.
+(function spotlight() {
+  const btn = $('launchBtn');
+  if (!btn || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  try { if (sessionStorage.getItem('pl-spot')) return; sessionStorage.setItem('pl-spot', '1'); } catch { /* private mode: show it every time */ }
+  const spot = document.createElement('div'); spot.id = 'spot';
+  const ring = document.createElement('div'); ring.id = 'spotRing';
+  document.body.append(spot, ring);
+  const place = (el, pad) => {
+    const r = btn.getBoundingClientRect();
+    Object.assign(el.style, { left: r.left - pad + 'px', top: r.top - pad + 'px', width: r.width + pad * 2 + 'px', height: r.height + pad * 2 + 'px' });
+  };
+  let done = false;
+  const end = () => { if (done) return; done = true; removeEventListener('scroll', end); removeEventListener('pointerdown', end); spot.remove(); ring.remove(); };
+  setTimeout(() => {
+    if (scrollY > 40) return end();
+    place(spot, 8); place(ring, 8);
+    addEventListener('scroll', end, { once: true, passive: true });
+    addEventListener('pointerdown', end, { once: true });
+    const ease = 'cubic-bezier(.2,.9,.3,1)';
+    spot.animate([
+      { opacity: 0, transform: 'scale(2.6)' },
+      { opacity: 1, transform: 'scale(1)', offset: .28 },
+      { opacity: 1, transform: 'scale(1.03)', offset: .78 },
+      { opacity: 0, transform: 'scale(1.1)' },
+    ], { duration: 2600, easing: ease, fill: 'forwards' });
+    ring.animate([
+      { opacity: 0, transform: 'scale(1)' },
+      { opacity: .9, transform: 'scale(1)', offset: .3 },
+      { opacity: 0, transform: 'scale(1.5)', offset: .62 },
+      { opacity: .9, transform: 'scale(1)', offset: .63 },
+      { opacity: 0, transform: 'scale(1.6)' },
+    ], { duration: 2600, easing: 'ease-out', fill: 'forwards' }).onfinish = end;
+  }, 900);
+})();
