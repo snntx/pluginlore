@@ -1,0 +1,12 @@
+{
+  "tool": "pluginlore-trace",
+  "version": 1,
+  "generated": "2026-11-21T10:00:00+00:00",
+  "requests": [
+    { "t": 1, "kind": "page", "target": "/contact/", "method": "get", "logged_in": false, "files": ["leaky-contact-form/leaky-contact-form.php", "leaky-contact-form/includes/class-lcf-messages.php"] },
+    { "t": 2, "kind": "ajax", "target": "lcf_submit", "method": "post", "logged_in": false, "files": ["leaky-contact-form/leaky-contact-form.php", "leaky-contact-form/includes/class-lcf-messages.php"] },
+    { "t": 3, "kind": "ajax", "target": "lcf_submit", "method": "post", "logged_in": false, "files": ["leaky-contact-form/leaky-contact-form.php", "leaky-contact-form/includes/class-lcf-messages.php"] },
+    { "t": 4, "kind": "admin", "target": "admin.php", "method": "get", "logged_in": true, "files": ["leaky-contact-form/leaky-contact-form.php", "leaky-contact-form/includes/class-lcf-messages.php", "akismet/akismet.php"] },
+    { "t": 5, "kind": "ajax", "target": "lcf_export", "method": "post", "logged_in": true, "files": ["leaky-contact-form/leaky-contact-form.php", "leaky-contact-form/includes/class-lcf-messages.php"] }
+  ]
+}

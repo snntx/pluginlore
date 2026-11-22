@@ -1,0 +1,28 @@
+{
+  "name": "pluginlore",
+  "version": "0.2.0",
+  "description": "Static analysis, access-control audit and web-graph explorer for PHP packages (plugins, themes, libraries). Nothing leaves your machine.",
+  "type": "module",
+  "bin": {
+    "pluginlore": "src/cli/index.js"
+  },
+  "scripts": {
+    "cli": "node src/cli/index.js",
+    "build:web": "node web/build.js",
+    "dev:web": "node web/build.js --serve",
+    "test": "node --test test/*.test.js"
+  },
+  "license": "GPL-2.0-or-later",
+  "dependencies": {
+    "@fontsource-variable/bricolage-grotesque": "^5.3.0",
+    "@fontsource-variable/jetbrains-mono": "^5.3.0",
+    "@wp-playground/client": "3.1.61",
+    "acorn": "^8.19.0",
+    "acorn-walk": "^8.3.5",
+    "fflate": "^0.8.3",
+    "php-parser": "^3.2.5"
+  },
+  "devDependencies": {
+    "esbuild": "^0.25.0"
+  }
+}

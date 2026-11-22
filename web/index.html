@@ -1,0 +1,319 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Pluginlore — see how a WordPress plugin works</title>
+  <meta name="description" content="Pluginlore turns any WordPress plugin or theme into an interactive map and a plain-English walkthrough: what loads when, which file does what, who can call what. Load from a zip or straight from WordPress.org, any version. Your code never leaves your browser." />
+  <meta name="theme-color" content="#f4efe4" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' rx='9' fill='%23ffd23f'/%3E%3Cg fill='%23fffcf5' stroke='%231c1a15' stroke-width='1.6' stroke-linejoin='round' stroke-linecap='round'%3E%3Crect x='12.8' y='4' width='3' height='8' rx='1'/%3E%3Crect x='24.2' y='4' width='3' height='8' rx='1'/%3E%3Crect x='9' y='11' width='22' height='25' rx='10'/%3E%3Ccircle cx='15.5' cy='20' r='4.2'/%3E%3Ccircle cx='24.5' cy='20' r='4.2'/%3E%3C/g%3E%3Ccircle cx='15.8' cy='20.4' r='1.8' fill='%231c1a15'/%3E%3Ccircle cx='24.8' cy='20.4' r='1.8' fill='%231c1a15'/%3E%3Cpath d='M18.6 25.2L20 27.6L21.4 25.2Z' fill='%231c1a15'/%3E%3C/svg%3E" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- icon sprite -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <symbol id="i-zip" viewBox="0 0 24 24"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M10 5h2M10 8h2M10 11h2M10 14h2v3h-2z"/></symbol>
+    <symbol id="i-bolt" viewBox="0 0 24 24"><path d="M13 2 4 14h7l-1 8 9-12h-7z"/></symbol>
+    <symbol id="i-download" viewBox="0 0 24 24"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"/></symbol>
+    <symbol id="i-compass" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="m15.5 8.5-2 5-5 2 2-5z"/></symbol>
+    <symbol id="i-moon" viewBox="0 0 24 24"><path d="M20 14.5A8 8 0 1 1 9.5 4 6.5 6.5 0 0 0 20 14.5z"/></symbol>
+    <symbol id="i-cup" viewBox="0 0 24 24"><path d="M5 8h11v6a5 5 0 0 1-5 5h-1a5 5 0 0 1-5-5zM16 10h2a2 2 0 0 1 0 4h-2M8 3v2M11 3v2"/></symbol>
+    <symbol id="i-heart" viewBox="0 0 24 24"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></symbol>
+    <symbol id="i-flask" viewBox="0 0 24 24"><path d="M9 3h6M10 3v6L4.5 18a2 2 0 0 0 1.7 3h11.6a2 2 0 0 0 1.7-3L14 9V3M7 15h10"/></symbol>
+    <symbol id="i-fit" viewBox="0 0 24 24"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></symbol>
+    <symbol id="i-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></symbol>
+    <symbol id="i-layers" viewBox="0 0 24 24"><path d="M12 3 3 8l9 5 9-5zM3 13l9 5 9-5"/></symbol>
+    <symbol id="i-pulse" viewBox="0 0 24 24"><path d="M3 12h4l3-7 4 14 3-7h4"/></symbol>
+    <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+    <symbol id="i-alert" viewBox="0 0 24 24"><path d="M12 3 2 20h20zM12 10v4M12 17h.01"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12 5 5 9-10"/></symbol>
+    <symbol id="i-stop" viewBox="0 0 24 24"><rect x="6" y="6" width="12" height="12" rx="2"/></symbol>
+    <symbol id="i-minus" viewBox="0 0 24 24"><path d="M6 12h12"/></symbol>
+    <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 6v12M6 12h12"/></symbol>
+    <symbol id="i-target" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="3"/></symbol>
+    <symbol id="i-web" viewBox="0 0 24 24"><circle cx="12" cy="12" r="2.2"/><circle cx="5" cy="6" r="1.8"/><circle cx="19" cy="7" r="1.8"/><circle cx="6" cy="18" r="1.8"/><circle cx="18" cy="18" r="1.8"/><path d="M6.4 7.2 10.3 10.6M17.4 8 13.9 10.9M7.4 16.9l3-3.4M16.6 16.8l-3-3.3"/></symbol>
+    <symbol id="i-flow" viewBox="0 0 24 24"><rect x="2.5" y="9" width="6" height="6" rx="1.5"/><rect x="15.5" y="3.5" width="6" height="6" rx="1.5"/><rect x="15.5" y="14.5" width="6" height="6" rx="1.5"/><path d="M8.5 12c3.5 0 3.5-5.5 7-5.5M8.5 12c3.5 0 3.5 5.5 7 5.5"/></symbol>
+    <symbol id="i-book" viewBox="0 0 24 24"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v15H6.5A2.5 2.5 0 0 0 4 20.5zM4 20.5A2.5 2.5 0 0 0 6.5 23H20v-5M8 7h8M8 11h6"/></symbol>
+    <symbol id="i-wp" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9.5"/><path d="M4.5 8.5 9 20M8 8.5h5M10.5 8.5l4 10.5 3.6-10.5M16 8.5h3"/></symbol>
+    <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"/><path d="m16 16 4.5 4.5"/></symbol>
+    <symbol id="i-play" viewBox="0 0 24 24"><path d="M7 5v14l11-7z"/></symbol>
+    <symbol id="i-eye" viewBox="0 0 24 24"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></symbol>
+    <symbol id="i-party" viewBox="0 0 24 24"><path d="M4 20 9 7l8 8zM13 4l1 2M18 6l-2 1M20 11h-2M15 2v1"/></symbol>
+  </svg>
+
+  <header class="topbar">
+    <a class="brand" href="./" aria-label="Pluginlore home">
+      <svg class="brand-mark owl" viewBox="0 0 40 40" aria-hidden="true"><g class="o-tilt"><rect class="o-prong" x="12.8" y="4.5" width="3" height="8" rx="1"/><rect class="o-prong" x="24.2" y="4.5" width="3" height="8" rx="1"/><rect class="o-body" x="9" y="11" width="22" height="25" rx="10"/><circle class="o-eye" cx="15.5" cy="20" r="4.2"/><circle class="o-eye" cx="24.5" cy="20" r="4.2"/><circle class="o-pupil" cx="15.8" cy="20.4" r="1.7"/><circle class="o-pupil" cx="24.8" cy="20.4" r="1.7"/><rect class="o-lid" x="11" y="15.6" width="9" height="8.9"/><rect class="o-lid" x="20" y="15.6" width="9" height="8.9"/><path class="o-beak" d="M18.6 25.2L20 27.6L21.4 25.2Z"/><path class="o-line" d="M15 31.2Q20 33.6 25 31.2"/><path class="o-line" d="M16 36v2M24 36v2"/></g></svg>
+      <span class="brand-name">Plugin<span class="hl">lore</span></span>
+      <span class="brand-tag">see how a WordPress plugin works</span>
+    </a>
+    <div class="stats" id="stats"></div>
+    <div class="top-actions">
+      <button class="btn small" id="samplesBtn" title="Practice plugins"><svg class="icon"><use href="#i-flask"/></svg><span class="label">Practice</span></button>
+      <button class="btn small" id="tourBtn" title="Take the tour"><svg class="icon"><use href="#i-compass"/></svg><span class="label">Tour</span></button>
+      <button class="btn small" id="reportBtn" disabled title="Export an audit report"><svg class="icon"><use href="#i-download"/></svg><span class="label">Report</span></button>
+      <button class="btn small ghost icon-btn" id="themeBtn" title="Light / dark"><svg class="icon"><use href="#i-moon"/></svg></button>
+      <a class="btn small coffee" id="coffeeBtn" href="#" target="_blank" rel="noopener"><svg class="icon"><use href="#i-cup"/></svg><span class="label">Buy me a coffee</span></a>
+    </div>
+  </header>
+
+  <main class="layout">
+    <!-- Left control rail -->
+    <aside class="rail left" id="leftRail">
+      <section class="panel" id="panelPackage">
+        <h3><span class="num">01</span> Package</h3>
+        <div id="dropzone" class="dropzone" role="button" tabindex="0" aria-label="Choose a plugin zip">
+          <input type="file" id="fileInput" accept=".zip" hidden />
+          <svg class="drop-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-zip"/></svg>
+          <p><strong>Drop a plugin or theme .zip</strong></p>
+          <p class="muted small">or click to browse. A single plugin or theme, or a whole <code>wp-content/plugins</code> folder. Nothing leaves your computer.</p>
+        </div>
+        <button class="btn small wporg-btn" id="wporgBtn"><svg class="icon"><use href="#i-wp"/></svg> Load from WordPress.org</button>
+        <div class="or-sample">or <button class="link-btn" id="railSamples">try a practice plugin <svg class="icon xs"><use href="#i-arrow"/></svg></button></div>
+        <div id="pkgInfo" class="pkg-info hidden"></div>
+      </section>
+
+      <section class="panel" id="panelCompare">
+        <h3><span class="num">02</span> Compare versions</h3>
+        <div id="compareDrop" class="dropzone small-drop" role="button" tabindex="0" aria-label="Choose another version to compare">
+          <input type="file" id="compareInput" accept=".zip" hidden />
+          <p><strong>Drop another version</strong></p>
+          <p class="muted small">New endpoints, removed checks, quiet fixes.</p>
+        </div>
+        <div id="compareInfo" class="pkg-info hidden"></div>
+      </section>
+
+
+
+      <section class="panel hidden" id="packagesPanel">
+        <h3><span class="num">··</span> Packages</h3>
+        <div id="packageFilters" class="filters"></div>
+      </section>
+
+      <section class="panel" id="panelEdges">
+        <h3><span class="num">03</span> Threads</h3>
+        <label class="row check tight" title="Files with no links to anything else (files that are public or have findings always stay)">
+          <input type="checkbox" id="hideIsoToggle" checked /> <span>Hide unconnected files <span class="muted" id="isoCount"></span></span>
+        </label>
+        <label class="row check tight"><input type="checkbox" id="focusToggle" checked /> <span>Spotlight the selected file</span></label>
+        <div id="edgeFilters" class="filters" style="margin-top:12px"></div>
+      </section>
+
+      <section class="panel" id="panelReach">
+        <h3><span class="num">04</span> Who can reach it</h3>
+        <div id="reachFilters" class="filters"></div>
+      </section>
+
+      <section class="panel">
+        <h3><span class="num">05</span> Legend</h3>
+        <div id="legend" class="legend"></div>
+      </section>
+
+      <div class="rail-group" id="auditGroup"><span>Audit tools</span></div>
+
+      <section class="panel" id="panelOptions">
+        <h3><span class="num">06</span> Security checks</h3>
+        <label class="row check" id="vulnRow" style="margin-top:0">
+          <input type="checkbox" id="vulnToggle" /> <span>Look for security problems</span>
+        </label>
+      </section>
+
+      <section class="panel" id="panelTrace">
+        <h3><span class="num">07</span> Runtime trace</h3>
+        <button class="btn small" id="traceBtn" disabled><svg class="icon"><use href="#i-pulse"/></svg> Import trace (.json)</button>
+        <input type="file" id="traceInput" accept=".json,application/json" hidden />
+        <label class="row check hidden" id="dimRow"><input type="checkbox" id="dimToggle" /> <span>Fade files that never loaded</span></label>
+        <div id="traceInfo" class="pkg-info hidden"></div>
+        <p class="muted small">Record real clicks on your <strong>local</strong> test site with the
+          <a href="pluginlore-trace.zip" download>Pluginlore Trace plugin</a>, then import the export.</p>
+      </section>
+    </aside>
+
+    <!-- Center: tabs over graph / tables -->
+    <section class="stage">
+      <nav class="tabs" id="tabs" role="tablist">
+        <button class="tab active" data-tab="learn" role="tab" id="tabLearn"><svg class="icon xs"><use href="#i-book"/></svg> Learn</button>
+        <button class="tab" data-tab="graph" role="tab"><svg class="icon xs"><use href="#i-web"/></svg> Map</button>
+        <button class="tab" data-tab="access" role="tab">Access <span class="count" id="tabCountAccess"></span></button>
+        <button class="tab" data-tab="findings" role="tab">Findings <span class="count" id="tabCountFindings"></span></button>
+        <button class="tab hidden" data-tab="conflicts" role="tab" id="tabConflicts">Conflicts <span class="count" id="tabCountConflicts"></span></button>
+        <button class="tab hidden" data-tab="changes" role="tab" id="tabChanges">Changes <span class="count" id="tabCountChanges"></span></button>
+        <button class="tab hidden" data-tab="runtime" role="tab" id="tabRuntime">Runtime</button>
+      </nav>
+      <div class="stage-body" id="stageBody">
+        <canvas id="graph"></canvas>
+
+        <div class="hero" id="hero">
+          <div class="hero-head">
+            <h1>What's <span class="hl">really</span> inside that plugin?</h1>
+            <p class="lead">Drop in a WordPress plugin or theme, or pull any version straight from WordPress.org. Pluginlore walks you through it in plain English, in the order WordPress runs it: what loads when, what each file and function does, and who can call what. Then explore it as a map, and run any function to see what it really does.</p>
+            <div class="hero-actions">
+              <button class="btn primary" id="heroPick"><svg class="icon"><use href="#i-zip"/></svg> Choose a zip</button>
+              <button class="btn" id="heroWporg"><svg class="icon"><use href="#i-wp"/></svg> From WordPress.org</button>
+              <button class="btn" id="heroTour"><svg class="icon"><use href="#i-compass"/></svg> 1-minute tour</button>
+            </div>
+          </div>
+          <div class="gallery-title"><svg class="icon"><use href="#i-flask"/></svg> Practice plugins: each one hides something</div>
+          <div class="gallery" id="heroGallery"></div>
+        </div>
+
+        <div class="stage-hint hidden" id="stageHint"></div>
+        <div class="stage-toolbar hidden" id="graphToolbar">
+          <div class="seg" id="viewToggle" role="radiogroup" aria-label="Graph view">
+            <button data-view="flow" role="radio" title="Flow: entry points on the left, what they load to the right"><svg class="icon"><use href="#i-flow"/></svg> Flow</button>
+            <button data-view="web" role="radio" title="Web: files clustered by folder"><svg class="icon"><use href="#i-web"/></svg> Web</button>
+          </div>
+          <div class="seg" aria-label="Zoom">
+            <button id="zoomOut" title="Zoom out"><svg class="icon"><use href="#i-minus"/></svg></button>
+            <button id="zoomIn" title="Zoom in"><svg class="icon"><use href="#i-plus"/></svg></button>
+          </div>
+          <button class="btn small" id="fitBtn" title="Show everything"><svg class="icon"><use href="#i-fit"/></svg> Fit</button>
+          <button class="btn small hidden" id="clearSimBtn" title="Stop the signal (Esc)"><svg class="icon"><use href="#i-stop"/></svg> Stop signal</button>
+          <input type="search" id="search" class="search" placeholder="Find a file…" />
+        </div>
+        <div class="sim-status" id="simStatus"></div>
+        <div class="table-view hidden" id="tableView"></div>
+
+        <aside class="mission hidden" id="mission" aria-label="Practice missions"></aside>
+
+        <div class="loader hidden" id="loader" role="status" aria-live="polite">
+          <div class="loader-card">
+            <svg class="loader-owl owl" viewBox="0 0 40 40" aria-hidden="true"><g class="o-tilt"><rect class="o-prong" x="12.8" y="4.5" width="3" height="8" rx="1"/><rect class="o-prong" x="24.2" y="4.5" width="3" height="8" rx="1"/><rect class="o-body" x="9" y="11" width="22" height="25" rx="10"/><circle class="o-eye" cx="15.5" cy="20" r="4.2"/><circle class="o-eye" cx="24.5" cy="20" r="4.2"/><circle class="o-pupil" cx="15.8" cy="20.4" r="1.7"/><circle class="o-pupil" cx="24.8" cy="20.4" r="1.7"/><rect class="o-lid" x="11" y="15.6" width="9" height="8.9"/><rect class="o-lid" x="20" y="15.6" width="9" height="8.9"/><path class="o-beak" d="M18.6 25.2L20 27.6L21.4 25.2Z"/><path class="o-line" d="M15 31.2Q20 33.6 25 31.2"/><path class="o-line" d="M16 36v2M24 36v2"/></g></svg>
+            <div class="loader-brand brand-name">Plugin<span class="hl">lore</span></div>
+            <div class="loader-title" data-l="title">Reading the plugin…</div>
+            <div class="loader-phase" data-l="phase">Unpacking the zip</div>
+            <div class="loader-file"><span data-l="file">…</span></div>
+            <div class="loader-bar"><div class="loader-fill" data-l="fill"></div></div>
+            <div class="loader-meta"><span data-l="count"></span><span data-l="pct">0%</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Right inspector -->
+    <aside class="rail right" id="inspector">
+      <div class="inspector-empty" id="inspectorEmpty">
+        <svg class="doodle" viewBox="0 0 120 90" aria-hidden="true">
+          <path d="M10 70c18-30 40-48 60-50M70 20l-6-6M70 20l-8 2"/>
+          <circle cx="92" cy="22" r="12"/><path d="M84 30l-10 10"/>
+          <path d="M20 82h60" stroke-dasharray="3 5"/>
+        </svg>
+        <p><strong>Click any file in the web.</strong></p>
+        <p class="muted small">You'll see who can reach it, what it expects, what it outputs, and you can ping a signal through it.</p>
+      </div>
+      <div id="inspectorBody" class="hidden"></div>
+    </aside>
+  </main>
+
+  <!-- Practice plugin gallery -->
+  <div class="modal-backdrop hidden" id="runModal">
+    <div class="modal run-modal" role="dialog" aria-labelledby="runTitle">
+      <h2><svg class="icon lg"><use href="#i-play"/></svg> <code id="runTitle"></code></h2>
+      <p class="muted" id="runWhere" style="margin:-4px 0 12px"></p>
+      <div class="tv-banner hidden" id="runConsent">
+        <b>This runs the plugin's real code.</b> Pluginlore starts a throwaway WordPress inside this browser tab (WordPress Playground, from WordPress.org), installs the plugin there and calls the function. The plugin's files never leave your browser and it can't reach the internet. The first run downloads about 35 MB of WordPress and PHP from WordPress.org's servers, then it's cached; like any website, they see your IP address (<a href="https://wordpress.org/about/privacy/" target="_blank" rel="noopener">their privacy policy</a>).
+      </div>
+      <div id="runParams" class="run-params"></div>
+      <div class="run-opts">
+        <label>Run as
+          <select class="select" id="runAs">
+            <option value="visitor">A logged-out visitor</option>
+            <option value="subscriber">A subscriber (lowest logged-in role)</option>
+            <option value="admin">An administrator</option>
+          </select>
+        </label>
+        <label class="row check"><input type="checkbox" id="runNonce" /> <span>Pretend nonce checks pass</span></label>
+      </div>
+      <div class="modal-actions run-actions">
+        <div class="run-status" id="runStatus" role="status" aria-live="polite"></div>
+        <button class="btn small ghost" id="runReset" title="Throw away the sandbox and start fresh">Reset sandbox</button>
+        <button class="btn" id="runClose">Close</button>
+        <button class="btn primary" id="runGo"><svg class="icon"><use href="#i-play"/></svg> Run</button>
+      </div>
+      <div id="runResult" class="run-result"></div>
+    </div>
+  </div>
+
+  <div class="modal-backdrop hidden" id="wporgModal">
+    <div class="modal wide" role="dialog" aria-labelledby="wporgTitle">
+      <h2 id="wporgTitle"><svg class="icon lg"><use href="#i-wp"/></svg> Load from WordPress.org</h2>
+      <div class="seg wporg-kind" role="radiogroup" aria-label="Directory">
+        <button data-kind="plugin" role="radio" aria-checked="true">Plugins</button>
+        <button data-kind="theme" role="radio" aria-checked="false">Themes</button>
+      </div>
+      <label class="wporg-search">
+        <svg class="icon"><use href="#i-search"/></svg>
+        <input class="select" id="wporgQuery" placeholder="Search by name or paste a slug, e.g. contact-form-7" autocomplete="off" />
+      </label>
+      <div id="wporgResults" class="wporg-results"></div>
+      <div id="wporgPick" class="wporg-pick hidden"></div>
+      <p class="muted small" style="margin-top:12px">Your browser downloads the public zip straight from WordPress.org. Only the name you search for is sent there; analysis still happens on your computer.</p>
+      <div class="modal-actions"><button class="btn" id="wporgClose">Close</button></div>
+    </div>
+  </div>
+
+  <div class="modal-backdrop hidden" id="galleryModal">
+    <div class="modal gallery-modal" role="dialog" aria-labelledby="galleryTitle">
+      <h2 id="galleryTitle"><svg class="icon lg"><use href="#i-flask"/></svg> Practice plugins</h2>
+      <p class="muted" style="margin:-4px 0 16px">Small plugins built to show one thing each. Pick one: it loads instantly and comes with missions.</p>
+      <div class="gallery" id="galleryGrid"></div>
+      <div class="modal-actions"><button class="btn" id="galleryClose">Close</button></div>
+    </div>
+  </div>
+
+  <!-- Disclaimer modal -->
+  <div class="modal-backdrop hidden" id="disclaimer">
+    <div class="modal" role="dialog" aria-labelledby="discTitle">
+      <h2 id="discTitle"><svg class="icon lg warn-ico"><use href="#i-alert"/></svg> Before we look for security problems</h2>
+      <div class="modal-body">
+        <p><strong>These are leads, not verdicts.</strong> Pluginlore spots <em>code patterns</em> that often go with vulnerabilities: unescaped output, input reaching SQL/shell/eval, missing capability or nonce checks.</p>
+        <ul>
+          <li><strong>It will cry wolf sometimes.</strong> A flagged line may be perfectly safe.</li>
+          <li><strong>It will miss things.</strong> A clean result does not mean the code is secure.</li>
+          <li>The scan only reads code. Nothing runs unless you press <b>Run</b> on a function, and that happens in a sandboxed WordPress inside your browser.</li>
+          <li>Probe commands are <strong>text for you to run against your own local test site</strong>. Only test software you're allowed to test.</li>
+        </ul>
+        <p class="muted small">You can switch this off any time. Whoever hosts this site can also switch it off for everyone.</p>
+      </div>
+      <div class="modal-actions">
+        <button class="btn" id="disclaimerCancel">Not now</button>
+        <button class="btn primary" id="disclaimerAccept">Got it, look for problems</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Report modal -->
+  <div class="modal-backdrop hidden" id="reportModal">
+    <div class="modal wide" role="dialog" aria-labelledby="reportTitle">
+      <h2 id="reportTitle"><svg class="icon lg"><use href="#i-download"/></svg> Export a report</h2>
+      <div class="modal-body form">
+        <label>Prepared by <span class="muted small">(you or your agency)</span><input class="select" id="rAgency" /></label>
+        <label>Prepared for <span class="muted small">(client or project)</span><input class="select" id="rClient" /></label>
+        <label>Logo <span class="muted small">(optional, stays in this browser)</span>
+          <span class="row"><input type="file" id="rLogo" accept="image/*" /><button class="btn small ghost" id="rLogoClear">Remove</button></span>
+          <img id="rLogoPreview" class="logo-preview hidden" alt="" />
+        </label>
+        <label>Reviewer notes<textarea class="select" id="rNotes" rows="3"></textarea></label>
+        <fieldset class="checks">
+          <legend class="muted small">Include</legend>
+          <label><input type="checkbox" data-sec="summary" checked /> Summary</label>
+          <label><input type="checkbox" data-sec="graph" checked /> Structure map</label>
+          <label><input type="checkbox" data-sec="access" checked /> Access control</label>
+          <label><input type="checkbox" data-sec="findings" checked /> Findings</label>
+          <label><input type="checkbox" data-sec="conflicts" checked /> Duplicates</label>
+          <label><input type="checkbox" data-sec="changes" checked /> Version changes</label>
+          <label><input type="checkbox" data-sec="runtime" checked /> Runtime coverage</label>
+        </fieldset>
+      </div>
+      <div class="modal-actions">
+        <button class="btn" id="reportCancel">Cancel</button>
+        <button class="btn" id="reportPrint">Print / Save as PDF</button>
+        <button class="btn primary" id="reportDownload">Download HTML</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="toast" class="toast hidden" role="status" aria-live="polite"></div>
+  <script type="module" src="app.js"></script>
+</body>
+</html>

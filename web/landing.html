@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Pluginlore — understand any WordPress plugin</title>
+  <meta name="description" content="Pluginlore explains any WordPress plugin or theme in plain English, maps every file, and lets you run any function in a throwaway WordPress inside your browser. Free forever. Your code never leaves your computer." />
+  <meta name="theme-color" content="#f4efe4" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' rx='9' fill='%23ffd23f'/%3E%3Cg fill='%23fffcf5' stroke='%231c1a15' stroke-width='1.6' stroke-linejoin='round' stroke-linecap='round'%3E%3Crect x='12.8' y='4' width='3' height='8' rx='1'/%3E%3Crect x='24.2' y='4' width='3' height='8' rx='1'/%3E%3Crect x='9' y='11' width='22' height='25' rx='10'/%3E%3Ccircle cx='15.5' cy='20' r='4.2'/%3E%3Ccircle cx='24.5' cy='20' r='4.2'/%3E%3C/g%3E%3Ccircle cx='15.8' cy='20.4' r='1.8' fill='%231c1a15'/%3E%3Ccircle cx='24.8' cy='20.4' r='1.8' fill='%231c1a15'/%3E%3Cpath d='M18.6 25.2L20 27.6L21.4 25.2Z' fill='%231c1a15'/%3E%3C/svg%3E" />
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="landing.css" />
+</head>
+<body class="landing">
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <symbol id="i-book" viewBox="0 0 24 24"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v15H6.5A2.5 2.5 0 0 0 4 20.5zM4 20.5A2.5 2.5 0 0 0 6.5 23H20v-5M8 7h8M8 11h6"/></symbol>
+    <symbol id="i-web" viewBox="0 0 24 24"><circle cx="12" cy="12" r="2.2"/><circle cx="5" cy="6" r="1.8"/><circle cx="19" cy="7" r="1.8"/><circle cx="6" cy="18" r="1.8"/><circle cx="18" cy="18" r="1.8"/><path d="M6.4 7.2 10.3 10.6M17.4 8 13.9 10.9M7.4 16.9l3-3.4M16.6 16.8l-3-3.3"/></symbol>
+    <symbol id="i-play" viewBox="0 0 24 24"><path d="M7 5v14l11-7z"/></symbol>
+    <symbol id="i-zip" viewBox="0 0 24 24"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M10 5h2M10 8h2M10 11h2M10 14h2v3h-2z"/></symbol>
+    <symbol id="i-wp" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9.5"/><path d="M4.5 8.5 9 20M8 8.5h5M10.5 8.5l4 10.5 3.6-10.5M16 8.5h3"/></symbol>
+    <symbol id="i-flask" viewBox="0 0 24 24"><path d="M9 3h6M10 3v6L4.5 18a2 2 0 0 0 1.7 3h11.6a2 2 0 0 0 1.7-3L14 9V3M7 15h10"/></symbol>
+    <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+    <symbol id="i-cup" viewBox="0 0 24 24"><path d="M5 8h11v6a5 5 0 0 1-5 5h-1a5 5 0 0 1-5-5zM16 10h2a2 2 0 0 1 0 4h-2M8 3v2M11 3v2"/></symbol>
+    <symbol id="i-heart" viewBox="0 0 24 24"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></symbol>
+    <symbol id="i-moon" viewBox="0 0 24 24"><path d="M20 14.5A8 8 0 1 1 9.5 4 6.5 6.5 0 0 0 20 14.5z"/></symbol>
+    <symbol id="i-lock" viewBox="0 0 24 24"><rect x="4.5" y="10.5" width="15" height="10" rx="2"/><path d="M8 10.5V7a4 4 0 0 1 8 0v3.5"/></symbol>
+    <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3 4.5 6v6c0 4.5 3.2 7.8 7.5 9 4.3-1.2 7.5-4.5 7.5-9V6z"/><path d="m9 12 2 2 4-4"/></symbol>
+    <symbol id="i-layers" viewBox="0 0 24 24"><path d="M12 3 3 8l9 5 9-5zM3 13l9 5 9-5"/></symbol>
+    <symbol id="i-grad" viewBox="0 0 24 24"><path d="M2 9l10-5 10 5-10 5zM6 11v5c3 2.5 9 2.5 12 0v-5M22 9v6"/></symbol>
+    <symbol id="i-wrench" viewBox="0 0 24 24"><path d="M14.5 6.5a4 4 0 0 0 5 5L12 19a2.1 2.1 0 0 1-3-3l7.5-7.5zM14.5 6.5 17 4l3 3-2.5 2.5"/></symbol>
+    <symbol id="i-brief" viewBox="0 0 24 24"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M9 7V5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2M3 13h18"/></symbol>
+    <symbol id="i-code" viewBox="0 0 24 24"><path d="m8 7-5 5 5 5M16 7l5 5-5 5M14 4l-4 16"/></symbol>
+  </svg>
+
+  <header class="l-nav">
+    <a class="brand" href="./" aria-label="Pluginlore home">
+      <svg class="brand-mark owl" viewBox="0 0 40 40" aria-hidden="true"><g class="o-tilt"><rect class="o-prong" x="12.8" y="4.5" width="3" height="8" rx="1"/><rect class="o-prong" x="24.2" y="4.5" width="3" height="8" rx="1"/><rect class="o-body" x="9" y="11" width="22" height="25" rx="10"/><circle class="o-eye" cx="15.5" cy="20" r="4.2"/><circle class="o-eye" cx="24.5" cy="20" r="4.2"/><circle class="o-pupil" cx="15.8" cy="20.4" r="1.7"/><circle class="o-pupil" cx="24.8" cy="20.4" r="1.7"/><rect class="o-lid" x="11" y="15.6" width="9" height="8.9"/><rect class="o-lid" x="20" y="15.6" width="9" height="8.9"/><path class="o-beak" d="M18.6 25.2L20 27.6L21.4 25.2Z"/><path class="o-line" d="M15 31.2Q20 33.6 25 31.2"/><path class="o-line" d="M16 36v2M24 36v2"/></g></svg>
+      <span class="brand-name">Plugin<span class="hl">lore</span></span>
+    </a>
+    <nav class="l-links" aria-label="Sections">
+      <a href="#modes">What it does</a>
+      <a href="#how">How it works</a>
+      <a href="#privacy">Privacy</a>
+      <a href="#free">Free forever</a>
+    </nav>
+    <button class="btn small ghost icon-btn" id="themeBtn" title="Light / dark" aria-label="Switch light or dark"><svg class="icon"><use href="#i-moon"/></svg></button>
+    <a class="btn small primary" href="app.html">Open Pluginlore <svg class="icon xs"><use href="#i-arrow"/></svg></a>
+  </header>
+
+  <main>
+    <!-- Hero -->
+    <section class="l-hero">
+      <div class="l-hero-copy">
+        <p class="l-kicker">For WordPress plugins and themes</p>
+        <h1>Finally <span class="hl">understand</span> that plugin.</h1>
+        <p class="l-lead">Pluginlore walks you through any WordPress plugin in plain English, in the order WordPress runs it. It maps every file, shows who can call what, and lets you run any function to see what it really does.</p>
+        <div class="l-cta">
+          <a class="btn primary big" href="app.html"><svg class="icon"><use href="#i-zip"/></svg> Open a plugin</a>
+          <a class="btn big" href="app.html#wporg"><svg class="icon"><use href="#i-wp"/></svg> Pick one from WordPress.org</a>
+        </div>
+        <p class="muted small l-note">Free, no sign-up. Your code stays in your browser.</p>
+      </div>
+
+      <figure class="l-sheet" aria-label="A plugin drawn as a flow of files, with a signal travelling through it">
+        <div class="l-sheet-bar"><span></span><span></span><span></span><b>contact-form.php</b></div>
+        <svg class="l-map" viewBox="0 0 476 300" role="img" aria-labelledby="mapTitle">
+          <title id="mapTitle">Files connected left to right, from the main plugin file to what it loads</title>
+          <g class="l-threads">
+            <path id="t1" d="M128 62 C170 62 170 40 210 40"/>
+            <path id="t2" d="M128 62 C170 62 170 120 210 120"/>
+            <path d="M128 62 C170 62 170 200 210 200"/>
+            <path id="t3" d="M334 120 C362 120 362 90 378 90"/>
+            <path d="M334 120 C362 120 362 160 378 160"/>
+            <path class="js" d="M334 250 C380 250 380 160 378 160"/>
+            <path d="M334 40 C362 40 362 90 378 90"/>
+          </g>
+          <g class="l-card main"><rect x="18" y="44" width="110" height="36" rx="8"/><text x="32" y="67">plugin.php</text><text class="tag" x="96" y="38">MAIN</text></g>
+          <g class="l-card"><rect x="210" y="22" width="124" height="36" rx="8"/><text x="224" y="45">admin/menu.php</text></g>
+          <g class="l-card hot"><rect x="210" y="102" width="124" height="36" rx="8"/><text x="224" y="125">ajax-submit.php</text></g>
+          <g class="l-card"><rect x="210" y="182" width="124" height="36" rx="8"/><text x="224" y="205">shortcode.php</text></g>
+          <g class="l-card js"><rect x="210" y="232" width="124" height="36" rx="8"/><text x="224" y="255">form.js</text></g>
+          <g class="l-card"><rect x="378" y="72" width="84" height="36" rx="8"/><text x="396" y="95">db.php</text></g>
+          <g class="l-card"><rect x="378" y="142" width="84" height="36" rx="8"/><text x="390" y="165">mail.php</text></g>
+          <circle class="l-pulse" r="6"><animateMotion dur="3.2s" repeatCount="indefinite" keyPoints="0;1" keyTimes="0;1" calcMode="linear"><mpath href="#t2"/></animateMotion></circle>
+        </svg>
+        <div class="l-learn-note">
+          <div class="l-step-n">03</div>
+          <div><b>When someone sends the form</b><p>The browser posts to <code>admin-ajax.php</code>. WordPress runs <code>lcf_submit()</code>, which saves the message and emails the site owner. <span class="l-flag">No nonce check</span></p></div>
+        </div>
+      </figure>
+    </section>
+
+    <!-- Three modes -->
+    <section class="l-section" id="modes">
+      <h2>Three ways to see a plugin</h2>
+      <div class="l-modes">
+        <article class="l-mode">
+          <div class="l-mode-icon m-learn"><svg class="icon lg"><use href="#i-book"/></svg></div>
+          <h3>Learn</h3>
+          <p>A guided walkthrough in the order WordPress runs things: how the plugin boots, what it sets up, what visitors see, what admins get, which requests it answers. Every file and function explained, with a glossary for the jargon.</p>
+        </article>
+        <article class="l-mode">
+          <div class="l-mode-icon m-map"><svg class="icon lg"><use href="#i-web"/></svg></div>
+          <h3>Map</h3>
+          <p>Every file as a card, every include, hook, class and JavaScript call as a thread. Read it as a flow chart or a web, then send a signal through it and watch where a request can travel.</p>
+        </article>
+        <article class="l-mode">
+          <div class="l-mode-icon m-run"><svg class="icon lg"><use href="#i-play"/></svg></div>
+          <h3>Run</h3>
+          <p>Press Run on any function. A throwaway WordPress starts inside your browser, calls it with the values you choose, and shows what it returned, what it printed, and every hook it passed through.</p>
+        </article>
+      </div>
+    </section>
+
+    <!-- How it works -->
+    <section class="l-section" id="how">
+      <h2>How it works</h2>
+      <ol class="l-steps">
+        <li><span class="l-num">1</span><div><h3>Bring a plugin</h3><p>Drop a <code>.zip</code>, or search WordPress.org and pick any version back to the first release. Pick two versions to see what changed.</p></div></li>
+        <li><span class="l-num">2</span><div><h3>Read the story</h3><p>Pluginlore reads every PHP and JavaScript file and writes the walkthrough from the code itself. No AI guessing: the same plugin always gets the same explanation.</p></div></li>
+        <li><span class="l-num">3</span><div><h3>Poke at it</h3><p>Click a file to see who can reach it. Send a signal through the map. Run a function as a visitor, a subscriber or an admin and compare what happens.</p></div></li>
+      </ol>
+    </section>
+
+    <!-- Who -->
+    <section class="l-section" id="who">
+      <h2>Made for</h2>
+      <div class="l-who">
+        <div class="l-who-card"><svg class="icon lg"><use href="#i-grad"/></svg><h3>People learning WordPress</h3><p>See how real plugins are put together. Eight small practice plugins come with missions that tick themselves off as you go.</p></div>
+        <div class="l-who-card"><svg class="icon lg"><use href="#i-wrench"/></svg><h3>Developers who inherit code</h3><p>Get your bearings in an unfamiliar plugin in minutes: where it starts, what it hooks into, what talks to what.</p></div>
+        <div class="l-who-card"><svg class="icon lg"><use href="#i-brief"/></svg><h3>Agencies and reviewers</h3><p>Check which handlers lack capability or nonce checks, compare versions before updating, and hand a client a tidy report.</p></div>
+      </div>
+    </section>
+
+    <!-- Privacy -->
+    <section class="l-section l-privacy" id="privacy">
+      <div class="l-privacy-icon"><svg class="icon"><use href="#i-lock"/></svg></div>
+      <div>
+        <h2>Your code stays on your computer</h2>
+        <p>Pluginlore is a static web page. Your plugin is unzipped and read inside your browser; nothing is uploaded and there's no account.</p>
+        <ul class="l-honest">
+          <li><b>Load from WordPress.org</b> sends your search to WordPress.org and downloads the public zip straight to your browser.</li>
+          <li><b>Run</b> loads WordPress Playground, WordPress and PHP compiled to WebAssembly, from WordPress.org's servers the first time. Like any website, they see your IP address (<a href="https://wordpress.org/about/privacy/" rel="noopener" target="_blank">their privacy policy</a>). The plugin's files still never leave your browser, and the sandbox can't reach the internet.</li>
+          <li>Security results are leads to check by hand, not verdicts. Pluginlore points; you confirm.</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Free -->
+    <section class="l-section l-free" id="free">
+      <h2>Free forever. Kept alive by kind people.</h2>
+      <p>No paywall, no pro plan, no tracking. If Pluginlore saved you an afternoon, a coffee keeps it going.</p>
+      <div class="l-cta center">
+        <a class="btn coffee big" id="coffeeBtn" href="#" target="_blank" rel="noopener"><svg class="icon"><use href="#i-cup"/></svg> Buy me a coffee</a>
+      </div>
+    </section>
+
+    <section class="l-final">
+      <h2>Pick a plugin. See how it works.</h2>
+      <div class="l-cta center">
+        <a class="btn primary big" href="app.html">Open Pluginlore <svg class="icon"><use href="#i-arrow"/></svg></a>
+        <a class="btn big" href="app.html#practice"><svg class="icon"><use href="#i-flask"/></svg> Try a practice plugin</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="l-foot">
+    <div class="l-foot-row">
+      <span class="brand-name small-brand">Plugin<span class="hl">lore</span></span>
+      <span class="muted">Free software under the <a href="https://www.gnu.org/licenses/old-licenses/gpl-2.0.html" rel="noopener" target="_blank">GPL v2 or later</a>.</span>
+      <a id="sourceLink" class="hidden" href="#" rel="noopener" target="_blank"><svg class="icon xs"><use href="#i-code"/></svg> Source code</a>
+    </div>
+    <p class="muted small">Not affiliated with or endorsed by the WordPress Foundation or WordPress.org. WordPress is a trademark of the WordPress Foundation. Runs functions with <a href="https://wordpress.org/playground/" rel="noopener" target="_blank">WordPress Playground</a>.</p>
+  </footer>
+
+  <script type="module" src="landing.js"></script>
+</body>
+</html>
