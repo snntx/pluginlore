@@ -167,3 +167,5 @@ Connect the repository in Cloudflare (Workers & Pages, Create, Pages, Connect to
 | Environment variable | `NODE_VERSION` = `22` |
 
 The build writes a `_headers` file (security headers, long caching for fonts and chunks) that Cloudflare Pages applies automatically. Every push to `main` redeploys.
+
+If Cloudflare offers the newer Workers flow instead of Pages, keep the build command above and the deploy command `npx wrangler deploy`: `wrangler.jsonc` in the repo root points it at `web/dist` (no output-directory field is needed).

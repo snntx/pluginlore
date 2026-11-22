@@ -1,0 +1,9 @@
+{
+  // Cloudflare Workers static assets: serves the built site (landing page at /, app at /app.html).
+  // The build (npm run build:web) writes everything, including the _headers file, into web/dist.
+  "name": "pluginlore",
+  "compatibility_date": "2026-11-22",
+  "assets": {
+    "directory": "./web/dist"
+  }
+}
