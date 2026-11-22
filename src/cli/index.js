@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// Pluginlore CLI — static analysis of PHP packages. Never executes code, never
+// Pluginlore CLI - static analysis of PHP packages. Never executes code, never
 // sends requests.
 //
 //   pluginlore <zip|dir> [options]            analyse one package (or a whole site)
@@ -16,7 +16,7 @@ const SEV = { info: 0, ok: 0, low: 1, medium: 2, high: 3, critical: 4 };
 const args = process.argv.slice(2);
 
 if (args.length === 0 || args.includes('-h') || args.includes('--help')) {
-  console.log(`Pluginlore — WordPress plugin & theme inspector (static analysis)
+  console.log(`Pluginlore - WordPress plugin & theme inspector (static analysis)
 
 Usage:
   pluginlore <plugin-or-theme.zip | directory> [options]

@@ -1,4 +1,4 @@
-// Static "packet tracer" — given the analysis model and a starting file,
+// Static "packet tracer" - given the analysis model and a starting file,
 // follow flow edges (include / call / hook) to show where a signal could go.
 // This is a STATIC over-approximation of possible paths, not a runtime trace.
 
@@ -101,7 +101,7 @@ export function expectedInputs(node) {
     }
   }
   if (node.readsSuperglobalTopLevel && node.directAccess) {
-    inputs.push({ transport: 'direct HTTP', note: 'File reads request input at top level with no ABSPATH guard — may be directly reachable.', auth: 'unauth' });
+    inputs.push({ transport: 'direct HTTP', note: 'File reads request input at top level with no ABSPATH guard - may be directly reachable.', auth: 'unauth' });
   }
   return inputs;
 }

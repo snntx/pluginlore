@@ -1,6 +1,6 @@
 // Canvas graph renderer with two views of the same model:
-//   web  — clustered force layout (file icons, labels that never collide)
-//   flow — layered left-to-right flow chart (labelled cards, curved links)
+//   web  - clustered force layout (file icons, labels that never collide)
+//   flow - layered left-to-right flow chart (labelled cards, curved links)
 // Positions come from layouts.js (computed in the worker when possible).
 // Shared: pan/zoom/drag, selection focus, filters, diff badges, runtime pips,
 // and the one-shot "ping" wave.

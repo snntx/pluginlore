@@ -58,7 +58,7 @@ export function ingestZip(data, options = {}) {
       }
       total += file.originalSize;
       if (total > o.maxTotalBytes) {
-        warnings.push(`Uncompressed size exceeded ${fmt(o.maxTotalBytes)} — remaining files skipped (possible zip bomb).`);
+        warnings.push(`Uncompressed size exceeded ${fmt(o.maxTotalBytes)} - remaining files skipped (possible zip bomb).`);
         return false;
       }
       return true;

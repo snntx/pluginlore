@@ -720,7 +720,7 @@ function tableAccess() {
       <td class="ep"><code>${esc(a.name)}</code><div class="muted small">${esc(a.file)}:${a.line}</div></td>
       <td>${a.type === 'rest' ? `REST · ${esc(a.permission || '?')}` : a.auth === 'unauth' ? 'Anyone' : 'Logged-in users'}</td>
       <td>${tick(a.cap)}</td><td>${tick(a.login)}</td><td>${tick(a.nonce)}</td>
-      <td>${a.writes.length ? `<code>${esc(a.writes.join(', '))}</code>` : '<span class="muted">—</span>'}</td>
+      <td>${a.writes.length ? `<code>${esc(a.writes.join(', '))}</code>` : '<span class="muted">-</span>'}</td>
       <td>${a.resolved ? `<code>${esc(a.callback || '')}</code>${a.helpers.length ? `<div class="muted small">via ${esc(a.helpers.join(', '))}</div>` : ''}` : '<span class="muted">not resolved</span>'}</td>
       ${scan ? `<td class="wide">${esc(a.message)}</td>` : ''}
     </tr>`).join('')}
@@ -882,7 +882,7 @@ function showInspector(node) {
     ${node.outputs.length ? section('Outputs', [...new Set(node.outputs.map((o) => o.type))].map((t) => `<span class="tag">${t}</span>`).join(' '), 'taglist') : ''}
     ${node.issues.length ? `<div class="insp-section"><h4>Findings (${node.issues.length})</h4>${node.issues.map(renderIssue).join('')}</div>` : ''}
 
-    <div class="insp-section"><h4>Probe commands <span class="muted small">(run locally — never sent)</span></h4>${probes.map(renderProbe).join('')}</div>
+    <div class="insp-section"><h4>Probe commands <span class="muted small">(run locally - never sent)</span></h4>${probes.map(renderProbe).join('')}</div>
   `;
 
   $('pingBtn').onclick = () => (simActive ? stopSim() : runSim(node.id));

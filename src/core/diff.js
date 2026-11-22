@@ -5,7 +5,7 @@
 //   - new / removed entry points (attack surface growing or shrinking)
 //   - access regressions (a capability or nonce check disappeared)
 //   - possible silent fixes (a finding or missing check vanished in a changed
-//     file — this is how patched vulnerabilities are usually spotted)
+//     file - this is how patched vulnerabilities are usually spotted)
 
 const SEV_RANK = { ok: 0, info: 0, low: 1, medium: 2, high: 3, critical: 4 };
 

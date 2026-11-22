@@ -9,7 +9,7 @@
 //   trace      optional runtime-trace JSON to import after loading
 //   settings   options the sample needs (vulnScan asks for the disclaimer first)
 //   tab        tab to open once loaded;  focus: node to select
-//   missions   [{ text, when }] — `when` is matched against UI events and the
+//   missions   [{ text, when }] - `when` is matched against UI events and the
 //              mission ticks itself off when the user does it:
 //
 //   event            payload fields you can match on

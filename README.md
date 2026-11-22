@@ -9,7 +9,7 @@ Drop in a `.zip` and Pluginlore parses every PHP and JS file, draws how they con
 ## Features
 
 ### See the structure
-- **Real parsers**: PHP via `php-parser`, JavaScript via `acorn` — not regex.
+- **Real parsers**: PHP via `php-parser`, JavaScript via `acorn` - not regex.
 - **Relationship graph** with distinct line styles: includes, inheritance (with override detection), interfaces, traits, function calls, WordPress hooks, JS → AJAX, JS → REST, enqueues, and JS ↔ DOM (a script's `#id`/`.class` lookups linked to the PHP that renders them).
 - **php / js / css file icons**, ringed by reachability: unauthenticated entry, REST, logged-in entry, internal, orphan, asset. Nodes never overlap.
 - **Two views of the same graph.** **Web** clusters files by folder; labels are placed most-important-first and skipped rather than overlapped, and every file gets a box that includes its label so nothing sits on top of anything else. **Flow** is a left-to-right flow chart: entry points first, then what they load and call, with labelled cards and curved links (tall columns wrap; it opens at a readable zoom and scrolls like a page). Switching morphs smoothly between the two.
@@ -17,24 +17,24 @@ Drop in a `.zip` and Pluginlore parses every PHP and JS file, draws how they con
 - **Signal simulation**: ping any file (including a front-end JS file) and watch the signal spread level by level through every reachable file, once. The lit path holds briefly, then fades and resets on its own; **Stop signal** (or Esc) ends it at any time. Reports reach, paths, dead ends and sinks on the way.
 
 ### Audit it
-- **Access-control audit** — every AJAX, admin-post and REST handler, with yes/no for capability check, login check and nonce check, and whether it changes data (options, posts, users, files, `$wpdb` writes, roles…). Follows the handler into helpers it calls, handles closures and REST `permission_callback`s. Missing authorization (CWE-862) and CSRF (CWE-352) are the most common real WordPress plugin vulnerabilities.
-- **Vulnerability patterns** (opt-in, behind a disclaimer) — SQLi, command/code injection, object injection, path traversal, reflected XSS, with intra-function taint tracking.
-- **Performance hints** — database queries, `WP_Query`, HTTP requests inside loops (N+1), unbounded `posts_per_page => -1`.
-- **Whole-site scan** — drop a folder of several plugins/themes: each package is detected and clustered, and **duplicate global functions/classes** that would fatal ("Cannot redeclare") are flagged, while `function_exists()`-guarded ones are recognised as safe.
+- **Access-control audit** - every AJAX, admin-post and REST handler, with yes/no for capability check, login check and nonce check, and whether it changes data (options, posts, users, files, `$wpdb` writes, roles…). Follows the handler into helpers it calls, handles closures and REST `permission_callback`s. Missing authorization (CWE-862) and CSRF (CWE-352) are the most common real WordPress plugin vulnerabilities.
+- **Vulnerability patterns** (opt-in, behind a disclaimer) - SQLi, command/code injection, object injection, path traversal, reflected XSS, with intra-function taint tracking.
+- **Performance hints** - database queries, `WP_Query`, HTTP requests inside loops (N+1), unbounded `posts_per_page => -1`.
+- **Whole-site scan** - drop a folder of several plugins/themes: each package is detected and clustered, and **duplicate global functions/classes** that would fatal ("Cannot redeclare") are flagged, while `function_exists()`-guarded ones are recognised as safe.
 
 ### Track change
-- **Version diff** — drop a second version. Pluginlore orders them by the `Version:` header and shows new/removed entry points, auth changes, **access regressions** (a capability or nonce check disappeared) and **possible silent security fixes** (a finding vanished from a changed file — how patched vulnerabilities are usually spotted). The graph marks added (+) and changed (~) files.
-- **Runtime trace** — install the bundled **Pluginlore Trace** plugin on a *local* test site, use the site, export the trace and import it. Files that really loaded get a green pip; the Runtime tab lists handlers your testing never exercised.
+- **Version diff** - drop a second version. Pluginlore orders them by the `Version:` header and shows new/removed entry points, auth changes, **access regressions** (a capability or nonce check disappeared) and **possible silent security fixes** (a finding vanished from a changed file - how patched vulnerabilities are usually spotted). The graph marks added (+) and changed (~) files.
+- **Runtime trace** - install the bundled **Pluginlore Trace** plugin on a *local* test site, use the site, export the trace and import it. Files that really loaded get a green pip; the Runtime tab lists handlers your testing never exercised.
 
 ### Share it
-- **Report export** — standalone HTML (or print to PDF) with your agency name, client, logo and notes: summary, structure map, access table, findings, duplicates, version changes, runtime coverage, and a methodology/limitations section.
-- **CLI + CI** — SARIF output for GitHub Code Scanning, `--fail-on` severity gates, and `diff --fail-on-regression`.
+- **Report export** - standalone HTML (or print to PDF) with your agency name, client, logo and notes: summary, structure map, access table, findings, duplicates, version changes, runtime coverage, and a methodology/limitations section.
+- **CLI + CI** - SARIF output for GitHub Code Scanning, `--fail-on` severity gates, and `diff --fail-on-regression`.
 
 ### Learn it
-- **Learn tab** — a guided walkthrough of the plugin in the order WordPress runs it: how WordPress finds it and what it loads, activation and uninstall, what it sets up on every request, what visitors see, the admin area, every request it answers (and which JavaScript sends it), background jobs, hooks it offers other developers, and the data it keeps. Then every file and every function explained in plain English: what it does, what triggers it, who calls it, and for each argument what it is and a sensible value to try. Dotted words open a glossary; **Show in graph** lights up the files involved; **Follow the signal** sends a wave from that file. Generated from the code's structure, not by AI.
-- **Run a function** — every PHP function in the Learn tab has a **Run** button. It starts [WordPress Playground](https://wordpress.github.io/wordpress-playground/) (WordPress and PHP compiled to WebAssembly) in a hidden frame, installs and activates the plugin, and calls the function with the arguments you type. Arguments and request input (`$_POST`, `$_GET`, `$_COOKIE` keys the function reads) come pre-filled from the hints. You choose who runs it (logged-out visitor, subscriber, administrator) and can pretend nonce checks pass. The result shows what it returned, what it printed (with a sandboxed preview), whether it stopped via `wp_die()`/`exit`, PHP warnings, files it loaded, and **step by step** every hook that ran plugin code during the call, with the file each callback lives in. The plugin's files stay in the browser; the Playground runtime (~35 MB) is downloaded from playground.wordpress.net the first time and then cached. PHP's outbound network is switched off. A call that runs past 25 seconds is stopped and the sandbox reset.
-- **Load from WordPress.org** — search the plugin or theme directory, pick any version back to the first release, or two versions to compare. The browser downloads the zip straight from WordPress.org (only the name you search leaves your machine).
-- **Practice plugins** — eight small tutorial plugins, each built to demonstrate one scenario, loadable with one click (no zip needed) and each with a short list of "missions":
+- **Learn tab** - a guided walkthrough of the plugin in the order WordPress runs it: how WordPress finds it and what it loads, activation and uninstall, what it sets up on every request, what visitors see, the admin area, every request it answers (and which JavaScript sends it), background jobs, hooks it offers other developers, and the data it keeps. Then every file and every function explained in plain English: what it does, what triggers it, who calls it, and for each argument what it is and a sensible value to try. Dotted words open a glossary; **Show in graph** lights up the files involved; **Follow the signal** sends a wave from that file. Generated from the code's structure, not by AI.
+- **Run a function** - every PHP function in the Learn tab has a **Run** button. It starts [WordPress Playground](https://wordpress.github.io/wordpress-playground/) (WordPress and PHP compiled to WebAssembly) in a hidden frame, installs and activates the plugin, and calls the function with the arguments you type. Arguments and request input (`$_POST`, `$_GET`, `$_COOKIE` keys the function reads) come pre-filled from the hints. You choose who runs it (logged-out visitor, subscriber, administrator) and can pretend nonce checks pass. The result shows what it returned, what it printed (with a sandboxed preview), whether it stopped via `wp_die()`/`exit`, PHP warnings, files it loaded, and **step by step** every hook that ran plugin code during the call, with the file each callback lives in. The plugin's files stay in the browser; the Playground runtime (~35 MB) is downloaded from playground.wordpress.net the first time and then cached. PHP's outbound network is switched off. A call that runs past 25 seconds is stopped and the sandbox reset.
+- **Load from WordPress.org** - search the plugin or theme directory, pick any version back to the first release, or two versions to compare. The browser downloads the zip straight from WordPress.org (only the name you search leaves your machine).
+- **Practice plugins** - eight small tutorial plugins, each built to demonstrate one scenario, loadable with one click (no zip needed) and each with a short list of "missions":
 
   | Plugin | What it teaches |
   |---|---|
@@ -48,8 +48,8 @@ Drop in a `.zip` and Pluginlore parses every PHP and JS file, draws how they con
   | Tidy Newsletter | The well-behaved one, for contrast |
 
   They live in `samples/` with a manifest; `npm test` proves every one of them triggers the scenario it claims. Missions **tick themselves off** as you do them (each has a `when` rule matched against UI events), and the tests also prove every mission can actually be completed.
-- **First-run tour** — a spotlight walkthrough (keyboard friendly; replay any time from **Tour**).
-- **Live loading screen** — shows the file actually being read, the current phase, and a progress bar that eases smoothly toward the worker's real progress.
+- **First-run tour** - a spotlight walkthrough (keyboard friendly; replay any time from **Tour**).
+- **Live loading screen** - shows the file actually being read, the current phase, and a progress bar that eases smoothly toward the worker's real progress.
 
 ### About the security results
 
@@ -67,7 +67,7 @@ npm run build:web        # minified static build in web/dist/
 
 The build writes the landing page to `web/dist/index.html` and the app to `web/dist/app.html` (`app.html#practice` opens the practice plugins, `#wporg` the WordPress.org search). Donation and source links for both live in `web/src/links.js`.
 
-`web/dist/` is fully static — host it anywhere (shared hosting, Cloudflare Pages, Netlify, Railway). It includes `pluginlore-trace.zip`, the companion plugin, which the app links to.
+`web/dist/` is fully static - host it anywhere (shared hosting, Cloudflare Pages, Netlify, Railway). It includes `pluginlore-trace.zip`, the companion plugin, which the app links to.
 
 ```bash
 PLUGINLORE_VULN_SCAN=0 npm run build:web   # ship without the vulnerability scanner

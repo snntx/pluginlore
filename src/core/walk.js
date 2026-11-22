@@ -35,7 +35,7 @@ export function callName(node) {
     return cls && method ? `${cls}::${method}` : method || null;
   }
   if (what.kind === 'propertylookup') {
-    // $obj->method() — we only know the method name, not the class.
+    // $obj->method() - we only know the method name, not the class.
     return what.offset && what.offset.name ? `->${what.offset.name}` : null;
   }
   return null;
@@ -55,7 +55,7 @@ export function literalString(node) {
   if (!node) return null;
   if (node.kind === 'string') return node.value;
   if (node.kind === 'encapsed') {
-    // "foo{$bar}" — build a best-effort template with placeholders.
+    // "foo{$bar}" - build a best-effort template with placeholders.
     return node.value.map((p) => (p.kind === 'string' ? p.value : '${…}')).join('');
   }
   return null;

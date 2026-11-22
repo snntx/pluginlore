@@ -1,7 +1,7 @@
 // PHP *core* deprecated / removed functions and constants, keyed by symbol name.
 // `deprecated` = version it was first deprecated; `removed` = version it was
 // removed (if any). A symbol is flagged when the selected PHP target version
-// is >= `deprecated`. This is a curated starter list, not exhaustive — it is
+// is >= `deprecated`. This is a curated starter list, not exhaustive - it is
 // deliberately a plain data file so it can be extended without touching logic.
 //
 // Sources: PHP migration guides (php.net/manual/en/migration*.php).

@@ -1,5 +1,5 @@
 // Pattern-based security *heuristics*. These flag code shapes that are
-// COMMONLY associated with vulnerabilities — they are NOT proof of a bug and
+// COMMONLY associated with vulnerabilities - they are NOT proof of a bug and
 // WILL produce false positives and miss real issues. The UI gates this behind
 // an explicit opt-in and a disclaimer. Keep this a plain data/rule file.
 

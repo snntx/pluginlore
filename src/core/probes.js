@@ -1,5 +1,5 @@
 // Generate copy-paste probe commands for a node's entry points. These are TEXT
-// only — Pluginlore never sends them. Run them yourself against a LOCAL test
+// only - Pluginlore never sends them. Run them yourself against a LOCAL test
 // site you own. `base` defaults to a localhost dev site.
 
 export function generateProbes(node, opts = {}) {

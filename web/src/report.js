@@ -27,7 +27,7 @@ export function buildReport({ model, diff, trace, branding = {}, sections = {}, 
     </div>
     <h1>${esc(title)}</h1>
     <div class="meta-grid">
-      ${row('Prepared for', branding.client || '—')}
+      ${row('Prepared for', branding.client || '-')}
       ${row('Package type', m.packageType)}
       ${row('Files analysed', `${m.fileCount} PHP · ${m.jsCount || 0} JS · ${m.totalFiles} total`)}
       ${row('Vulnerability scan', m.vulnScan ? 'Enabled (heuristic)' : 'Not enabled')}
@@ -67,8 +67,8 @@ export function buildReport({ model, diff, trace, branding = {}, sections = {}, 
             <td><code>${esc(a.name)}</code><div class="muted small">${esc(a.file)}:${a.line}</div></td>
             <td>${a.type === 'rest' ? `REST (${esc(a.permission || '?')})` : a.auth === 'unauth' ? 'Anyone' : 'Logged-in users'}</td>
             <td>${tick(a.cap)}</td><td>${tick(a.nonce)}</td>
-            <td>${a.writes.length ? esc(a.writes.join(', ')) : '—'}</td>
-            <td>${m.vulnScan ? esc(a.message) : '—'}</td>
+            <td>${a.writes.length ? esc(a.writes.join(', ')) : '-'}</td>
+            <td>${m.vulnScan ? esc(a.message) : '-'}</td>
           </tr>`).join('')}</tbody>
       </table>
     </section>`);

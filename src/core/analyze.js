@@ -46,7 +46,7 @@ function fileType(path) {
   return 'other';
 }
 
-// Small, fast content hash (FNV-1a) — used by version diff to spot changed files.
+// Small, fast content hash (FNV-1a) - used by version diff to spot changed files.
 function hash(s) {
   let h = 0x811c9dc5;
   for (let i = 0; i < s.length; i++) { h ^= s.charCodeAt(i); h = Math.imul(h, 0x01000193); }

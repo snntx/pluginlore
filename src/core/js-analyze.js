@@ -69,7 +69,7 @@ export function analyzeJs(code) {
             const o = objArg(args[0]);
             calls.push(mk('jquery', o.url, o.method || 'POST', o.action, line(node)));
           } else {
-            // $.post(url, data) — the 2nd argument IS the data object
+            // $.post(url, data) - the 2nd argument IS the data object
             const url = staticStr(args[0]);
             const action = dataAction(args[1]) || readOpts(args[1]).action;
             calls.push(mk('jquery', url, prop === 'get' || prop === 'getJSON' ? 'GET' : 'POST', action, line(node)));
@@ -84,7 +84,7 @@ export function analyzeJs(code) {
           return;
         }
 
-        // XMLHttpRequest .open(method, url) — the URL is often dynamic
+        // XMLHttpRequest .open(method, url) - the URL is often dynamic
         // (window.x.ajaxUrl); a literal HTTP method is what tells it apart from window.open().
         if (prop === 'open' && args.length >= 2) {
           const method = staticStr(args[0]);
@@ -119,7 +119,7 @@ export function analyzeJs(code) {
   });
 
   // AJAX fallback: a call we couldn't classify, but the script clearly posts an
-  // `action` (FormData/params) — link it to that action anyway.
+  // `action` (FormData/params) - link it to that action anyway.
   if (formActions.length) {
     for (const c of calls) {
       if (c.endpoint === 'unknown' && (c.kind === 'fetch' || c.kind === 'jquery' || c.kind === 'xhr')) {
