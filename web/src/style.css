@@ -114,8 +114,6 @@ a { color: var(--cobalt); }
 :root[data-theme="dark"] .btn.primary { color: #0c0f26; }
 @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .btn.primary { color: #0c0f26; } }
 .btn.primary:hover { background: var(--cobalt); filter: brightness(1.08); }
-.btn.coffee { background: var(--marker); color: #1c1a15; }
-.btn.coffee:hover { background: var(--marker); filter: brightness(1.04); }
 .btn:disabled { opacity: .45; cursor: default; box-shadow: none; transform: none; }
 .icon-btn { padding: 6px; }
 .link-btn { background: none; border: none; color: var(--cobalt); cursor: pointer; padding: 0; font: inherit; font-size: 12.5px; font-weight: 600; }
@@ -577,6 +575,3 @@ textarea.mono { font-family: var(--mono); font-size: 12px; }
 @keyframes owl-tilt { 0%, 100% { transform: rotate(-4deg); } 50% { transform: rotate(4deg); } }
 @keyframes owl-blink { 0%, 90%, 100% { transform: scaleY(0); } 94% { transform: scaleY(1); } }
 
-.support-modal { max-width: 460px; }
-.support-links { display: grid; gap: 10px; }
-.support-links .btn.big { justify-content: center; font-size: 15px; padding: 10px 16px; box-shadow: var(--hard); }

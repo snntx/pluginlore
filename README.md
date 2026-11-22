@@ -65,7 +65,7 @@ npm run dev:web          # build + serve at http://localhost:5178
 npm run build:web        # minified static build in web/dist/
 ```
 
-The build writes the landing page to `web/dist/index.html` and the app to `web/dist/app.html` (`app.html#practice` opens the practice plugins, `#wporg` the WordPress.org search). Donation and source links for both live in `web/src/links.js`.
+The build writes the landing page to `web/dist/index.html` and the app to `web/dist/app.html` (`app.html#practice` opens the practice plugins, `#wporg` the WordPress.org search). The source-code link lives in `web/src/links.js`.
 
 `web/dist/` is fully static - host it anywhere (shared hosting, Cloudflare Pages, Netlify, Railway). It includes `pluginlore-trace.zip`, the companion plugin, which the app links to.
 
@@ -139,7 +139,7 @@ test/            node:test suite + fixtures (npm test)
 
 GPL-2.0-or-later (see `LICENSE`). Pluginlore is free software: you can use, change and share it, and anything you distribute that's built from it must stay under the same license with its source available. This matches WordPress itself and WordPress Playground, which the web app bundles.
 
-Pluginlore is free forever and funded by donations (GitHub Sponsors for now); the GPL allows that. The links live in `web/src/links.js`; an empty link hides its button, and `.github/FUNDING.yml` adds a Sponsor button to the repository.
+Pluginlore is free forever.
 
 ### Third-party services
 
