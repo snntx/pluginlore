@@ -57,6 +57,52 @@ function packSamples() {
   return dirs.size;
 }
 
+// Apache / cPanel (Namecheap shared hosting etc.): file types, compression, light caching, basic headers.
+const HTACCESS = `# Pluginlore static site
+AddType application/javascript .js .mjs
+AddType application/wasm .wasm
+AddType font/woff2 .woff2
+AddType application/zip .zip
+
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/css application/javascript application/json image/svg+xml
+</IfModule>
+
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresByType font/woff2 "access plus 1 year"
+  ExpiresByType text/html "access plus 0 seconds"
+  ExpiresDefault "access plus 1 hour"
+</IfModule>
+
+<IfModule mod_headers.c>
+  Header always set X-Content-Type-Options "nosniff"
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+</IfModule>
+
+# Send visitors to HTTPS (needs the free SSL certificate switched on in cPanel)
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteCond %{HTTPS} off
+  RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+</IfModule>
+`;
+
+// `--zip`: pack the site (without source maps) into one file to upload through cPanel's File Manager.
+function zipSite() {
+  const files = {};
+  (function walk(dir) {
+    for (const name of readdirSync(dir)) {
+      const p = join(dir, name);
+      if (statSync(p).isDirectory()) walk(p);
+      else if (!name.endsWith('.map')) files[relative(outdir, p).split('\\').join('/')] = readFileSync(p);
+    }
+  })(outdir);
+  const out = join(__dirname, 'pluginlore-site.zip');
+  writeFileSync(out, zipSync(files, { level: 9 }));
+  console.log(`Packed ${Object.keys(files).length} files to web/pluginlore-site.zip`);
+}
+
 async function build() {
   // app.js + lazily-loaded chunks (the WordPress Playground client only loads when someone presses Run)
   await esbuild.build({
@@ -80,11 +126,12 @@ async function build() {
   console.log(`Packed ${n} practice plugins into web/dist/samples`);
   zipCompanion();
   // .htaccess for shared hosting: correct MIME types.
-  writeFileSync(join(outdir, '.htaccess'), 'AddType application/javascript .js\nAddType application/wasm .wasm\n');
+  writeFileSync(join(outdir, '.htaccess'), HTACCESS);
   console.log(`\nBuilt to web/dist  (${serve ? 'dev' : 'minified'}; vuln scanner: ${vulnEnabled ? 'enabled' : 'DISABLED'})`);
 }
 
 await build();
+if (process.argv.includes('--zip')) zipSite();
 
 if (serve) {
   const types = { '.html': 'text/html', '.js': 'application/javascript', '.css': 'text/css', '.map': 'application/json', '.zip': 'application/zip', '.json': 'application/json', '.woff2': 'font/woff2', '.woff': 'font/woff' };

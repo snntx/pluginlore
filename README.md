@@ -145,3 +145,12 @@ Pluginlore is free forever and funded by donations (Buy Me a Coffee); the GPL al
 
 - **WordPress Playground** (`@wp-playground/client`, GPL-2.0-or-later) runs a function only when you press **Run**. The runtime loads from `playground.wordpress.net` / `wasm.wordpress.net`, so those servers see your IP address like any website does; see the [WordPress.org privacy policy](https://wordpress.org/about/privacy/). The plugin's files are never uploaded. WordPress.org hosts Playground for the community with no uptime guarantee; for a production deploy, self-host it ([guide](https://developer.wordpress.org/playground/developers/architecture/host-your-own-playground)) and set `remoteUrl`.
 - **WordPress.org API** is called only when you use **Load from WordPress.org** (your search text, then the zip download).
+
+## Deploy on shared hosting (cPanel / Namecheap)
+
+```bash
+npm ci
+npm run pack:web        # builds, then writes web/pluginlore-site.zip (no source maps)
+```
+
+In cPanel: File Manager, open the domain's folder (usually `public_html`), delete any default `index.php` or `index.html` left by the host, upload `pluginlore-site.zip` and choose Extract. Switch on the free SSL certificate (AutoSSL) so the HTTPS redirect in `.htaccess` works. The landing page is `/` and the app is `/app.html`.

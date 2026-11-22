@@ -9,6 +9,7 @@
   "scripts": {
     "cli": "node src/cli/index.js",
     "build:web": "node web/build.js",
+    "pack:web": "node web/build.js --zip",
     "dev:web": "node web/build.js --serve",
     "test": "node --test test/*.test.js"
   },
