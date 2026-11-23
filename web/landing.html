@@ -15,6 +15,7 @@
   <svg width="0" height="0" style="position:absolute" aria-hidden="true">
     <symbol id="i-book" viewBox="0 0 24 24"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v15H6.5A2.5 2.5 0 0 0 4 20.5zM4 20.5A2.5 2.5 0 0 0 6.5 23H20v-5M8 7h8M8 11h6"/></symbol>
     <symbol id="i-web" viewBox="0 0 24 24"><circle cx="12" cy="12" r="2.2"/><circle cx="5" cy="6" r="1.8"/><circle cx="19" cy="7" r="1.8"/><circle cx="6" cy="18" r="1.8"/><circle cx="18" cy="18" r="1.8"/><path d="M6.4 7.2 10.3 10.6M17.4 8 13.9 10.9M7.4 16.9l3-3.4M16.6 16.8l-3-3.3"/></symbol>
+    <symbol id="i-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></symbol>
     <symbol id="i-play" viewBox="0 0 24 24"><path d="M7 5v14l11-7z"/></symbol>
     <symbol id="i-zip" viewBox="0 0 24 24"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M10 5h2M10 8h2M10 11h2M10 14h2v3h-2z"/></symbol>
     <symbol id="i-wp" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9.5"/><path d="M4.5 8.5 9 20M8 8.5h5M10.5 8.5l4 10.5 3.6-10.5M16 8.5h3"/></symbol>
@@ -57,6 +58,7 @@
         <p class="l-lead">Pluginlore walks you through any WordPress plugin in plain English, in the order WordPress runs it. It maps every file, shows who can call what, and lets you run any function to see what it really does.</p>
         <div class="l-cta">
           <a class="btn primary big launch" id="launchBtn" href="app.html"><svg class="icon rocket"><use href="#i-rocket"/></svg> Launch Pluginlore</a>
+          <button class="btn big watch" id="watchBtn" type="button" aria-haspopup="dialog" aria-controls="trailerModal"><span class="watch-dot"><svg class="icon"><use href="#i-play"/></svg></span> Watch the trailer</button>
         </div>
         <ul class="l-ways" aria-label="Two ways to load a plugin">
           <li><svg class="icon"><use href="#i-zip"/></svg><span>Your own <b>.zip</b></span></li>
@@ -173,6 +175,18 @@
     </div>
     <p class="muted small">Not affiliated with or endorsed by the WordPress Foundation or WordPress.org. WordPress is a trademark of the WordPress Foundation. Runs functions with <a href="https://wordpress.org/playground/" rel="noopener" target="_blank">WordPress Playground</a>.</p>
   </footer>
+
+
+  <!-- Trailer popup -->
+  <div class="tm" id="trailerModal" role="dialog" aria-modal="true" aria-label="Pluginlore trailer" hidden>
+    <div class="tm-back" data-close></div>
+    <div class="tm-card" id="trailerCard">
+      <button class="tm-x" type="button" data-close aria-label="Close the trailer"><svg class="icon"><use href="#i-x"/></svg></button>
+      <video id="trailerVideo" controls playsinline preload="none" poster="media/trailer-poster.jpg" data-src="media/pluginlore-trailer.mp4">
+        Your browser can't play this video.
+      </video>
+    </div>
+  </div>
 
   <script type="module" src="landing.js"></script>
 </body>

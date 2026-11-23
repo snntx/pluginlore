@@ -65,6 +65,7 @@ const CSP = [
   "style-src 'self' 'unsafe-inline'",
   "img-src 'self' data: blob: https:",
   "font-src 'self'",
+  "media-src 'self'",
   "connect-src 'self' https://api.wordpress.org https://downloads.wordpress.org https://playground.wordpress.net https://wasm.wordpress.net",
   "frame-src https://playground.wordpress.net",
   "worker-src 'self' blob:",
@@ -144,6 +145,9 @@ const HEADERS = `/*
 
 /chunks/*
   Cache-Control: public, max-age=31536000, immutable
+
+/media/*
+  Cache-Control: public, max-age=86400
 `;
 
 async function build() {
@@ -164,6 +168,9 @@ async function build() {
   });
   // The landing page is the front door; the app lives at app.html.
   copyFileSync(join(__dirname, 'landing.html'), join(outdir, 'index.html'));
+  // Trailer video and poster (committed in web/media so every build ships them)
+  mkdirSync(join(outdir, 'media'), { recursive: true });
+  for (const f of readdirSync(join(__dirname, 'media'))) copyFileSync(join(__dirname, 'media', f), join(outdir, 'media', f));
   copyFileSync(join(__dirname, 'index.html'), join(outdir, 'app.html'));
   const n = packSamples();
   console.log(`Packed ${n} practice plugins into web/dist/samples`);
