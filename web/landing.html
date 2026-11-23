@@ -60,14 +60,11 @@
           <a class="btn primary big launch" id="launchBtn" href="app.html"><svg class="icon rocket"><use href="#i-rocket"/></svg> Launch Pluginlore</a>
           <button class="btn big watch" id="watchBtn" type="button" aria-haspopup="dialog" aria-controls="trailerModal"><span class="watch-dot"><svg class="icon"><use href="#i-play"/></svg></span> Watch the trailer</button>
         </div>
-        <ul class="l-ways" aria-label="Two ways to load a plugin">
-          <li><svg class="icon"><use href="#i-zip"/></svg><span>Your own <b>.zip</b></span></li>
-          <li><svg class="icon"><use href="#i-wp"/></svg><span><b>WordPress.org</b>, any version</span></li>
-        </ul>
         <p class="muted small l-note">Free, no sign-up. Your code stays in your browser.</p>
       </div>
 
-      <figure class="l-sheet" aria-label="A plugin drawn as a flow of files, with a signal travelling through it">
+      <div class="l-visual">
+        <figure class="l-sheet" aria-label="A plugin drawn as a flow of files, with a signal travelling through it">
         <div class="l-sheet-bar"><span></span><span></span><span></span><b>contact-form.php</b></div>
         <svg class="l-map" viewBox="0 0 476 300" role="img" aria-labelledby="mapTitle">
           <title id="mapTitle">Files connected left to right, from the main plugin file to what it loads</title>
@@ -94,6 +91,11 @@
           <div><b>When someone sends the form</b><p>The browser posts to <code>admin-ajax.php</code>. WordPress runs <code>lcf_submit()</code>, which saves the message and emails the site owner. <span class="l-flag">No nonce check</span></p></div>
         </div>
       </figure>
+        <ul class="l-ways" aria-label="Two ways to load a plugin">
+          <li><svg class="icon"><use href="#i-zip"/></svg><span>Your own <b>.zip</b></span></li>
+          <li><svg class="icon"><use href="#i-wp"/></svg><span><b>WordPress.org</b>, any version</span></li>
+        </ul>
+      </div>
     </section>
 
     <!-- Three modes -->

@@ -191,12 +191,6 @@ html:has(body.landing) { scroll-behavior: smooth; }
 @media (max-width: 480px) { .landing .btn.launch { font-size: 19px; } }
 
 
-/* Two ways in: zip file or the WordPress.org directory */
-.l-ways { list-style: none; margin: 18px 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: 10px; }
-.l-ways li { display: inline-flex; align-items: center; gap: 8px; font-size: 16px; padding: 7px 13px; border: 1.5px solid var(--ink);
-  border-radius: 999px; background: var(--card); box-shadow: 2px 2px 0 var(--ink); }
-.l-ways .icon { width: 18px; height: 18px; color: var(--cobalt); }
-.l-ways b { font-weight: 700; }
 
 @media (max-width: 480px) { .hide-s { display: none; } .l-nav { gap: 12px; } }
 
@@ -218,3 +212,20 @@ html:has(body.landing) { scroll-behavior: smooth; }
 .tm-x:focus-visible, .btn.watch:focus-visible { outline: 3px solid var(--cobalt); outline-offset: 3px; }
 body.tm-open { overflow: hidden; }
 @media (max-width: 480px) { .tm { padding: 12px; } .tm-card { border-radius: 12px; } .l-cta .btn.watch { width: 100%; justify-content: center; } }
+
+/* Two ways in: stickers on the corners of the sketch window (a plain row under it on small screens) */
+.l-visual { position: relative; }
+.l-ways { list-style: none; margin: 0; padding: 0; }
+.l-ways li { display: inline-flex; align-items: center; gap: 8px; font-size: 16px; padding: 8px 14px; border: 1.5px solid var(--ink);
+  border-radius: 999px; background: var(--card); box-shadow: 3px 3px 0 var(--ink); transition: transform .2s cubic-bezier(.2, 1.5, .4, 1); }
+.l-ways .icon { width: 18px; height: 18px; color: var(--cobalt); }
+.l-ways b { font-weight: 700; }
+.l-ways li:first-child { position: absolute; top: -18px; right: 26px; z-index: 3; transform: rotate(3deg); background: var(--marker-soft); }
+.l-ways li:last-child { position: absolute; bottom: -20px; left: 22px; z-index: 3; transform: rotate(-2.5deg); }
+.l-visual:hover .l-ways li:first-child { transform: rotate(1deg) translateY(-2px); }
+.l-visual:hover .l-ways li:last-child { transform: rotate(-1deg) translateY(2px); }
+@media (max-width: 860px) {
+  .l-ways { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-top: 26px; }
+  .l-ways li:first-child, .l-ways li:last-child { position: static; transform: none; }
+  .l-visual:hover .l-ways li { transform: none; }
+}
